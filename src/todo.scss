@@ -1,0 +1,146 @@
+
+.form{
+    margin-top: 100px;
+    margin-bottom: 50px;
+  }
+  .input{
+    position: relative;
+    width: 400px;
+    padding: 10px;
+    border-radius: 15px;
+    outline: none;
+    top: -90px;
+  }
+  .add-button{
+    top: -93px;
+    width: 100px;
+    left: 10px;   
+  }
+
+
+  
+  
+  .textTodo{
+    position: relative;
+    margin: 10px;
+    top: -90px;
+    border: 2px solid;
+    
+  }
+
+  
+
+  .amountTodo{
+    position: relative;
+    left: 1500px;
+    top: -190px;
+    margin: 10px;
+    max-width: 20px;
+    border:2px solid; 
+    padding: 5px;
+    background-color:lightgrey;
+  }
+
+  .textTodoAmount{
+    position: relative;
+    left: 1300px;
+    top: -148px;
+    max-width: 200px;
+  }
+
+
+  .check{
+    text-decoration: line-through;
+    position: relative;
+    left: -90px;
+    
+  }
+
+  .delete{
+    position: relative;
+    left: 20px;
+    border: 2px solid;
+  }
+
+
+  .DeleteAll{
+    position: relative;
+    right: 500px;
+    top:-90px;
+  }
+
+
+
+  .newDelete{
+    position: relative;
+    left: 60px;
+  }
+
+ 
+  .alert{
+    position: relative;
+    top: -790px;
+    left: 750px;
+  }
+
+
+  .Options{
+    position: relative;
+    left: -450px;
+    top: -40px;
+    max-width: 250px;
+  }
+
+.alert-select{
+  position: relative;
+  top: -850px;
+  left: 750px;
+}
+
+
+.testThing{
+  position: relative;
+  left: 300px;
+ 
+}
+
+.Edit{
+  position: relative;
+  left: 90px;
+  top: 7px;
+}
+
+.textInput{
+  position: relative;
+  top: -30px;
+}
+
+
+.SelectError{
+  position: relative;
+  bottom: 785px;
+  left: 300px;
+}
+
+
+.todos-container {
+  display: flex;
+  position: relative;
+  justify-content: space-evenly;
+  top: -160px;
+  
+
+
+  >div {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 10px;
+  }
+}
+
+
+
+.test{
+  text-decoration: line-through;
+}
