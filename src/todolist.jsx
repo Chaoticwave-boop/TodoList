@@ -113,17 +113,21 @@ const TodoSet = ({}) => {
     
     // zet deze hetzelfde als degene de onder
     const EditTodo = (key) => {
-         
         setTodo(todo.map(t => {if (t.id == key.name){return {...t, name: key.value}} else {return t;}}))
     
     }
 
+                                                    // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
     
 
 
     // hieronder probeer de herhaalende stukies code in 1 function te zetten
-    
+
+    // hier het liefst
+    const Todo_Box = (element,index) => {
+        
+    }
 
 
    const High = () => {
@@ -144,7 +148,7 @@ const TodoSet = ({}) => {
                             <IconButton aria-label="delete" size="medium" className="newDelete">
                                 <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                             </IconButton>
-                            {/* <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>     */}
+                           
                     </Item>
                 </Box>
                 </h2>                          
@@ -161,7 +165,7 @@ const TodoSet = ({}) => {
                             <h2 key={index}>
                                 
                             <Box  className="boxMedium">
-                                <Item>
+                                <Item className="todo-item">
                                    
                                     <th>{element.category}</th>
                                    
@@ -187,7 +191,7 @@ const TodoSet = ({}) => {
                             <h2 key={index}>
                                 
                             <Box className="boxLow">
-                                <Item>
+                                <Item className="todo-item">
                                    
                                     <th>{element.category}</th>
                                    
@@ -213,7 +217,7 @@ const TodoSet = ({}) => {
                             <h2 key={index}>
                                 
                             <Box className="boxStand">
-                                <Item>
+                                <Item className="todo-item">
                                     <th>{element.category}</th>
                                    
                                     <Checkbox color="success" className="check" ></Checkbox>
