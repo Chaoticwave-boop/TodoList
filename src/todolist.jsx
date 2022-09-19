@@ -18,6 +18,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ReactDOM } from 'react';
 import { Search } from "@mui/icons-material";
+import { EditText, EditTextarea } from 'react-edit-text';
 
 
 const TodoList = [{id: 1, name: "",category: "", }]
@@ -43,6 +44,8 @@ const TodoSet = ({}) => {
     const [select, setSelect] =useState("");
     const [error, setError] = useState(false)
     const [search, setSearch] = useState('')
+    const [isEditing, setIsEditing] = useState([]);
+
    
   
    
@@ -105,36 +108,43 @@ const TodoSet = ({}) => {
     
     const HandleChange = (event) => {
         setSelect(event.target.value);
-        
-    }
+    };
 
     
+    // zet deze hetzelfde als degene de onder
     const EditTodo = (key) => {
-        console.log("pressed")
-        console.log(key)
-
+         
+        setTodo(todo.map(t => {if (t.id == key.name){return {...t, name: key.value}} else {return t;}}))
+    
     }
 
+    const check = (val, id) => setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
+    
+
+
+    // hieronder probeer de herhaalende stukies code in 1 function te zetten
+    
 
 
    const High = () => {
     return(
-    <div>
-        {todo.filter((element) => element.category === "High Priority").map((element, index)=>{
+    <div >
+        {todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{
                 
             return(
                 <h2 key={index}>
-                <Box className="boxHigh">
-                    <Item>
+                <Box >
+                    <Item className="todo-item">
                         <th>{element.category}</th>
                     
-                        <Checkbox color="success" placeholder="check"></Checkbox>
-                            <label>{element.name}</label>
-                
+                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} ></Checkbox>
+                            <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
+                                <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText" ></EditText>
+                            </div>
                             <IconButton aria-label="delete" size="medium" className="newDelete">
                                 <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                             </IconButton>
-                            <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>    
+                            {/* <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>     */}
                     </Item>
                 </Box>
                 </h2>                          
@@ -156,11 +166,11 @@ const TodoSet = ({}) => {
                                     <th>{element.category}</th>
                                    
                                     <Checkbox color="success" className="check" ></Checkbox>
-                                        {element.name}
+                                    <EditText defaultValue={element.name} type="text" onSave={() => EditTodo} className="EditText"></EditText>
                                         <IconButton aria-label="delete" size="medium" className="newDelete">
                                             <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                                         </IconButton>
-                                        <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>    
+                                        
                                 </Item>
                             </Box>
                             </h2>                          
@@ -182,11 +192,11 @@ const TodoSet = ({}) => {
                                     <th>{element.category}</th>
                                    
                                     <Checkbox color="success" className="check" ></Checkbox>
-                                        {element.name}
+                                    <EditText defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"></EditText>
                                         <IconButton aria-label="delete" size="medium" className="newDelete">
                                             <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                                         </IconButton>
-                                        <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>    
+                                       
                                 </Item>
                             </Box>
                             </h2>                          
@@ -207,11 +217,11 @@ const TodoSet = ({}) => {
                                     <th>{element.category}</th>
                                    
                                     <Checkbox color="success" className="check" ></Checkbox>
-                                        {element.name}
+                                    <EditText defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"></EditText>
                                         <IconButton aria-label="delete" size="medium" className="newDelete">
                                             <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                                         </IconButton>
-                                        <BorderColorIcon className="Edit" onClick={() => EditTodo(element.name)}></BorderColorIcon>    
+                                      
                                 </Item>
                             </Box>
                             </h2>                          

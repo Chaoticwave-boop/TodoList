@@ -49,17 +49,13 @@
   }
 
 
-  .check{
-    text-decoration: line-through;
-    position: relative;
-    left: -90px;
-    
-  }
+ 
 
   .delete{
     position: relative;
     left: 20px;
     border: 2px solid;
+  
   }
 
 
@@ -71,10 +67,7 @@
 
 
 
-  .newDelete{
-    position: relative;
-    left: 60px;
-  }
+
 
  
   .alert{
@@ -134,8 +127,8 @@
   >div {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
     margin: 10px;
+    flex-basis: 25%;
   }
 }
 
@@ -143,4 +136,40 @@
 
 .test{
   text-decoration: line-through;
+}
+
+
+.boxHigh{
+  position: relative;
+  
+}
+
+.todo-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  >th {
+    flex-basis: 25%;
+  }
+
+  >span {
+    flex-basis: 5%;
+  }
+
+  >div {
+    flex-basis: 60%;
+    width: 100px;
+  }
+
+  >button {
+    flex-basis: 10%;
+  }
+
+  .todo-name {
+
+    &.checked {
+      text-decoration: line-through;
+    }
+  }
 }
