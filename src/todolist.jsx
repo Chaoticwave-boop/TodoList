@@ -22,7 +22,11 @@ import { EditText, EditTextarea } from 'react-edit-text';
 import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { DatePicker } from "@mui/x-date-pickers";
 
+
+// what to work on : show finished, unfinished etc,
+// perhaps making so you can put a date next to a todo?
 
 
 
@@ -47,6 +51,7 @@ const TodoSet = ({}) => {
     const [open, setopen] = useState(false);
     const [select, setSelect] =useState("");
     const [Text, setText] = useState("")
+    const [startDate, setStartDate] = useState(new Date());
 
     console.log(todo)
   
@@ -150,6 +155,7 @@ const TodoSet = ({}) => {
 
    const High = () => {
         return(   
+            
             todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{          
                 return(Todo_Box(element,index))})
             )}
@@ -182,6 +188,10 @@ const TodoSet = ({}) => {
 
     const ShowUnfineshed  = () => {
         console.log("unfinished")
+        todo.filter((element) => element.checked === false).map((element,index)=>{
+            return (<div>{ console.log(element)}</div>)
+        })
+
         
     }
 
@@ -192,6 +202,7 @@ const TodoSet = ({}) => {
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
+
             {/*Work on this  */}
             <Box sx={{width: '100%'}} className="ShowSertainTodos">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -221,6 +232,7 @@ const TodoSet = ({}) => {
                 </Box>
 
                 
+                {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />  for some reason does not work*/}
                 <Button variant="outlined" color="error" className="DeleteAll" onClick={DeleteTodoAll}>Delete All</Button>
             
 
