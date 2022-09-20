@@ -19,12 +19,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ReactDOM } from 'react';
 import { Search } from "@mui/icons-material";
 import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 
 const TodoList = [{id: 1, name: "",category: "", }]
 
 
-let i = 1;
+let i = 0;
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -41,9 +42,8 @@ const TodoSet = ({}) => {
     const [todo, setTodo] = useState([]);
     const [open, setopen] = useState(false);
     const [select, setSelect] =useState("");
-    const [error, setError] = useState(false)
-    const [search, setSearch] = useState('')
-    const [isEditing, setIsEditing] = useState([]);
+  
+    const [Text, setText] = useState("")
 
     console.log(todo)
   
@@ -53,17 +53,25 @@ const TodoSet = ({}) => {
     const updateTodo = event => {  
         inputRef.current.value = inputRef.current.value.trim();
         if (inputRef.current.value == "" ){
+            setText("Please Type a Todo");
             setopen(true);}
 
-        else if (select === "") {
-            setError(true);
-        }
 
-        
+        else if (select === "") {
+            setText("please select an Urgent");
+            setopen(true);}
+
 
         else if (select === select && inputRef.current.value ==""){
+            setText("Please Type a Todo");
+            setopen(true);}
+
+
+        else if (inputRef.current.value.length == 2 ){
+            setText("Please type a longer sentence");
             setopen(true);
         }
+        
       
         else{
             setTodo([...todo, {id: i++, name:inputRef.current.value, category: select,Checked: false,}])
@@ -129,10 +137,9 @@ const TodoSet = ({}) => {
                 <Box >
                     <Item className="todo-item">
                         <th>{element.category}</th>
-                    
                         <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} ></Checkbox>
                             <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
-                                <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText" ></EditText>
+                                <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"> </EditText>
                             </div>
                             <IconButton aria-label="delete" size="medium" className="newDelete">
                                 <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
@@ -144,44 +151,30 @@ const TodoSet = ({}) => {
 
 
    const High = () => {
-    return(
-    <div >
-        {todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{
-                
-            return(Todo_Box(element,index))
-            
-            })}
-    </div>
-    )}
+        return(   
+            todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{          
+                return(Todo_Box(element,index))})
+            )}
 
 
     const Medium = () => {
         return(
-            <div>
-                {todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
-                    return(Todo_Box(element,index))
-                    })}
-            </div>
-                )}
+            todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
+                return(Todo_Box(element,index))})
+            )}
 
     const Low = () => {
         return(
-            <div>
-                {todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
-                    return(Todo_Box(element,index))
-                    })}
-                </div>
-        )}
+            todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
+                return(Todo_Box(element,index))})
+            )}
 
 
     const Stand = () => {
         return(
-            <div>
-                {todo.filter((element) => element.category === "On Standby").map((element, index)=>{
-                    return(Todo_Box(element,index))
-                    })}
-                </div> 
-                )}
+            todo.filter((element) => element.category === "On Standby").map((element, index)=>{
+                return(Todo_Box(element,index))})
+            )}
     
 
 
@@ -190,12 +183,10 @@ const TodoSet = ({}) => {
             <h1 className="textTodo"  >TodoList</h1>
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
-                <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">Please Type a Todo</Alert>
+                <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">{Text}</Alert>
             </Snackbar>
 
-            <Snackbar open={error} autoHideDuration={6000} onClose={HandleSelect}>
-                <Alert severity="error" onClose={HandleSelect} sx={{ width: 350 }} className="SelectError">Please select an urgent</Alert>
-            </Snackbar>
+         
             
             <div className="Top-Container">
                 <Box sx={{ minWidth: 120 }}>

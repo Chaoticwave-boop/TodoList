@@ -24,8 +24,7 @@
     position: relative;
     margin: 10px;
     top: -90px;
-    border: 2px solid;
-    
+    border: 2px solid;  
   }
 
   
@@ -123,6 +122,10 @@
   top: -160px;
   
 
+  
+ 
+  
+
 
   >div {
     display: flex;
@@ -134,23 +137,19 @@
 
 
 
-.test{
-  text-decoration: line-through;
-}
 
 
-.boxHigh{
-  position: relative;
-  
-}
 
 .todo-item{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 2px  solid;
+  
 
   >th {
     flex-basis: 25%;
+    
   }
 
   >span {
@@ -160,6 +159,10 @@
   >div {
     flex-basis: 60%;
     width: 100px;
+    
+    
+    
+  
   }
 
   >button {
@@ -167,9 +170,30 @@
   }
 
   .todo-name {
+    
+    
 
     &.checked {
       text-decoration: line-through;
     }
   }
+
+  
+
+}
+
+.High{
+  border: 2px solid;
+}
+
+.Medium{
+    border: 2px solid; 
+}
+
+.Low{
+  border: 2px solid; 
+}
+
+.OnStand{
+  border: 2px solid; 
 }
