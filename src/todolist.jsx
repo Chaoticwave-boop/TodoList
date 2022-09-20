@@ -24,8 +24,7 @@ import { EditText, EditTextarea } from 'react-edit-text';
 const TodoList = [{id: 1, name: "",category: "", }]
 
 
-
-let i = 0;
+let i = 1;
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -46,7 +45,7 @@ const TodoSet = ({}) => {
     const [search, setSearch] = useState('')
     const [isEditing, setIsEditing] = useState([]);
 
-   
+    console.log(todo)
   
    
 
@@ -60,6 +59,8 @@ const TodoSet = ({}) => {
             setError(true);
         }
 
+        
+
         else if (select === select && inputRef.current.value ==""){
             setopen(true);
         }
@@ -70,6 +71,7 @@ const TodoSet = ({}) => {
             
             
         inputRef.current.value = ""
+
 
 
 
@@ -111,32 +113,19 @@ const TodoSet = ({}) => {
     };
 
     
-    // zet deze hetzelfde als degene de onder
-    const EditTodo = (key) => {
-        setTodo(todo.map(t => {if (t.id == key.name){return {...t, name: key.value}} else {return t;}}))
+   
+    const EditTodo = (key) => setTodo(todo.map(t => t.id == key.name ? {...t, name: key.value}: t));
     
-    }
+    
 
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
     
 
 
-    // hieronder probeer de herhaalende stukies code in 1 function te zetten
-
-    // hier het liefst
-    const Todo_Box = (element,index) => {
-        
-    }
-
-
-   const High = () => {
-    return(
-    <div >
-        {todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{
-                
-            return(
-                <h2 key={index}>
+    const Todo_Box = (element, index) => {
+        return(
+            <h2 key={index}>
                 <Box >
                     <Item className="todo-item">
                         <th>{element.category}</th>
@@ -148,11 +137,20 @@ const TodoSet = ({}) => {
                             <IconButton aria-label="delete" size="medium" className="newDelete">
                                 <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
                             </IconButton>
-                           
                     </Item>
                 </Box>
-                </h2>                          
-            )})}
+            </h2>        
+        )}
+
+
+   const High = () => {
+    return(
+    <div >
+        {todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{
+                
+            return(Todo_Box(element,index))
+            
+            })}
     </div>
     )}
 
@@ -160,51 +158,18 @@ const TodoSet = ({}) => {
     const Medium = () => {
         return(
             <div>
-                    {todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
-                        return(
-                            <h2 key={index}>
-                                
-                            <Box  className="boxMedium">
-                                <Item className="todo-item">
-                                   
-                                    <th>{element.category}</th>
-                                   
-                                    <Checkbox color="success" className="check" ></Checkbox>
-                                    <EditText defaultValue={element.name} type="text" onSave={() => EditTodo} className="EditText"></EditText>
-                                        <IconButton aria-label="delete" size="medium" className="newDelete">
-                                            <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
-                                        </IconButton>
-                                        
-                                </Item>
-                            </Box>
-                            </h2>                          
-                        )})}
-                </div>
+                {todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
+                    return(Todo_Box(element,index))
+                    })}
+            </div>
                 )}
 
     const Low = () => {
         return(
             <div>
-
-                    {todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
-                        return(
-                            <h2 key={index}>
-                                
-                            <Box className="boxLow">
-                                <Item className="todo-item">
-                                   
-                                    <th>{element.category}</th>
-                                   
-                                    <Checkbox color="success" className="check" ></Checkbox>
-                                    <EditText defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"></EditText>
-                                        <IconButton aria-label="delete" size="medium" className="newDelete">
-                                            <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
-                                        </IconButton>
-                                       
-                                </Item>
-                            </Box>
-                            </h2>                          
-                        )})}
+                {todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
+                    return(Todo_Box(element,index))
+                    })}
                 </div>
         )}
 
@@ -212,29 +177,11 @@ const TodoSet = ({}) => {
     const Stand = () => {
         return(
             <div>
-                    {todo.filter((element) => element.category === "On Standby").map((element, index)=>{
-                        return(
-                            <h2 key={index}>
-                                
-                            <Box className="boxStand">
-                                <Item className="todo-item">
-                                    <th>{element.category}</th>
-                                   
-                                    <Checkbox color="success" className="check" ></Checkbox>
-                                    <EditText defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"></EditText>
-                                        <IconButton aria-label="delete" size="medium" className="newDelete">
-                                            <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
-                                        </IconButton>
-                                      
-                                </Item>
-                            </Box>
-                            </h2>                          
-                        )})}
-                </div>
-
-
-                
-        )}
+                {todo.filter((element) => element.category === "On Standby").map((element, index)=>{
+                    return(Todo_Box(element,index))
+                    })}
+                </div> 
+                )}
     
 
 
@@ -264,6 +211,7 @@ const TodoSet = ({}) => {
                 </Box>
 
 
+                
                 <Button variant="outlined" color="error" className="DeleteAll" onClick={DeleteTodoAll}>Delete All</Button>
             
 
