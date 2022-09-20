@@ -42,7 +42,6 @@ const TodoSet = ({}) => {
     const [todo, setTodo] = useState([]);
     const [open, setopen] = useState(false);
     const [select, setSelect] =useState("");
-  
     const [Text, setText] = useState("")
 
     console.log(todo)
@@ -67,10 +66,9 @@ const TodoSet = ({}) => {
             setopen(true);}
 
 
-        else if (inputRef.current.value.length == 2 ){
+        else if (inputRef.current.value.length < 3 ){
             setText("Please type a longer sentence");
-            setopen(true);
-        }
+            setopen(true);}
         
       
         else{
