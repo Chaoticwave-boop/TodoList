@@ -150,13 +150,15 @@
   >th {
     flex-basis: 25%;
     
+    
   }
 
   >span {
     flex-basis: 5%;
+    
   }
 
-  >div {
+  >div{
     flex-basis: 60%;
     width: 100px;
     
@@ -176,6 +178,10 @@
     &.checked {
       text-decoration: line-through;
     }
+
+   .EditText:hover{
+    background-color: rgb(238, 238, 238);
+   }
   }
 
   
@@ -196,4 +202,22 @@
 
 .OnStand{
   border: 2px solid; 
+}
+
+.rating{
+  position: relative;
+  left: 330px;
+  top: 46px;
+}
+
+.ShowSertainTodos{
+  position: relative;
+  left: 1460px;
+  top:-95px ;
+  max-width: 500px;
+  height: 20px;
+}
+
+.HoverOptions:hover{
+  background-color: rgb(233, 233, 233);
 }

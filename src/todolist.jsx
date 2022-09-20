@@ -15,11 +15,15 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Link } from "react-router-dom";
 import { ReactDOM } from 'react';
 import { Search } from "@mui/icons-material";
 import { EditText, EditTextarea } from 'react-edit-text';
-import 'react-edit-text/dist/index.css';
+import Rating from '@mui/material/Rating';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
+
 
 
 const TodoList = [{id: 1, name: "",category: "", }]
@@ -92,11 +96,6 @@ const TodoSet = ({}) => {
         setopen(false);
     }
 
-    const HandleSelect = () => {
-        setError(false);
-    }
-
-   
 
     const deleteToDo = (key) => {    
         // var list = [...todo];
@@ -126,8 +125,8 @@ const TodoSet = ({}) => {
 
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
-    
 
+ 
 
     const Todo_Box = (element, index) => {
         return(
@@ -135,7 +134,8 @@ const TodoSet = ({}) => {
                 <Box >
                     <Item className="todo-item">
                         <th>{element.category}</th>
-                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} ></Checkbox>
+                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} />
+                            
                             <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
                                 <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"> </EditText>
                             </div>
@@ -175,16 +175,37 @@ const TodoSet = ({}) => {
             )}
     
 
+    const ShowAll = () => {
+        console.log("all")
+        
+    }
+
+    const ShowUnfineshed  = () => {
+        console.log("unfinished")
+        
+    }
+
+    const ShowFinished = () => {
+        console.log("finished")
+    }
 
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
+            {/*Work on this  */}
+            <Box sx={{width: '100%'}} className="ShowSertainTodos">
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs>
+                        <Tab label="Show all" onClick={ShowAll} className="HoverOptions"/>
+                        <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions"/>
+                        <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions"/>
+                    </Tabs>
+                </Box>
+            </Box>
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
                 <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">{Text}</Alert>
             </Snackbar>
-
-         
             
             <div className="Top-Container">
                 <Box sx={{ minWidth: 120 }}>
@@ -199,7 +220,6 @@ const TodoSet = ({}) => {
                     </FormControl> 
                 </Box>
 
-
                 
                 <Button variant="outlined" color="error" className="DeleteAll" onClick={DeleteTodoAll}>Delete All</Button>
             
@@ -209,24 +229,32 @@ const TodoSet = ({}) => {
                 <Button variant="contained" color="success" onClick={function(event){updateTodo()} } type="submit" className="add-button">Add</Button>
                 <p className="textTodoAmount">amount of Todo's:</p>
                 <p className="amountTodo">{todo.length}</p>
+
+
+              
+
             </div>
 
 
             <div className="todos-container">
                 <div className="high">
+                    <Rating name="disabled" value={5} readOnly className="rating" />
                     <h3 className="High">High Priority</h3>
                     <High/>
                 </div>
                 <div className="medium">
+                    <Rating name="disabled" value={3} readOnly className="rating" />
                     <h3 className="Medium"> Medium Priority</h3>
                     <Medium/>
 
                 </div>
                 <div className="low">
+                    <Rating name="disabled" value={2} readOnly className="rating" />
                     <h3 className="Low"> Low Priority</h3>
                     <Low/>
                 </div>
                 <div className="onstand">
+                    <Rating name="disabled" value={1} readOnly className="rating" />
                     <h3 className="OnStand">On Standby</h3>
                     <Stand/>  
                 </div>
