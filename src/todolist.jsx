@@ -51,12 +51,19 @@ const TodoSet = ({}) => {
     const [open, setopen] = useState(false);
     const [select, setSelect] =useState("");
     const [Text, setText] = useState("")
+    const [value ,setValue] = useState(0)
+    const [Show, SetShow] = useState(true)
+    const [Showall, SetShowAll] = useState(false)
     const [startDate, setStartDate] = useState(new Date());
 
-    console.log(todo)
+
   
    
 
+    const handleValue = (event, newValue) => {
+        setValue(newValue)
+        
+    }
    
     const updateTodo = event => {  
         inputRef.current.value = inputRef.current.value.trim();
@@ -86,10 +93,6 @@ const TodoSet = ({}) => {
             
             
         inputRef.current.value = ""
-
-
-
-
     }
        
     const DeleteTodoAll = () => {
@@ -153,66 +156,91 @@ const TodoSet = ({}) => {
         )}
 
 
+    
+
+    
+
    const High = () => {
         return(   
             
-            todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{          
-                return(Todo_Box(element,index))})
+            todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{    
+                return(ShowingElements(element,index))})
             )}
 
 
     const Medium = () => {
         return(
             todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
-                return(Todo_Box(element,index))})
+                return(ShowingElements(element,index))})
             )}
 
     const Low = () => {
         return(
             todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
-                return(Todo_Box(element,index))})
+                return(ShowingElements(element,index))})
             )}
 
 
     const Stand = () => {
         return(
             todo.filter((element) => element.category === "On Standby").map((element, index)=>{
-                return(Todo_Box(element,index))})
+                return(ShowingElements(element,index))})
             )}
-    
+
+    const ShowingElements =(element,index) =>{
+        if (Showall === true){
+            return(Todo_Box(element,index))
+        }
+        return(
+            <div>
+                {todo.filter((element)=> element.Checked === false).map((element,index)=>{
+                    if (Show === true){
+                            return(Todo_Box(element,index))
+                            } })}
+
+                {todo.filter((element)=> element.Checked === true).map((element,index)=>{
+                    if (Show === false){
+                            return(Todo_Box(element,index))
+                        } })}
+            </div>
+        )
+                }
 
     const ShowAll = () => {
-        console.log("all")
-        
+        console.log("all") 
+        SetShow(true)
+        SetShowAll(true)
     }
 
     const ShowUnfineshed  = () => {
         console.log("unfinished")
-        todo.filter((element) => element.checked === false).map((element,index)=>{
-            return (<div>{ console.log(element)}</div>)
-        })
-
-        
+        SetShow(true)
+        SetShowAll(false)
     }
 
     const ShowFinished = () => {
         console.log("finished")
+        SetShow(false)
+        SetShowAll(false)
     }
 
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
+            
 
             {/*Work on this  */}
-            <Box sx={{width: '100%'}} className="ShowSertainTodos">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs>
-                        <Tab label="Show all" onClick={ShowAll} className="HoverOptions"/>
-                        <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions"/>
-                        <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions"/>
-                    </Tabs>
+            <div role="tabpanel">
+                <Box sx={{width: '100%'}} className="ShowSertainTodos">
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleValue}>
+                            <Tab label="Show all" onClick={ShowAll} className="HoverOptions" />
+                            <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions" />
+                            <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions" />
+                        </Tabs>
+                    </Box>
                 </Box>
-            </Box>
+            </div>
 
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
                 <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">{Text}</Alert>
@@ -232,7 +260,7 @@ const TodoSet = ({}) => {
                 </Box>
 
                 
-                {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />  for some reason does not work*/}
+              
                 <Button variant="outlined" color="error" className="DeleteAll" onClick={DeleteTodoAll}>Delete All</Button>
             
 

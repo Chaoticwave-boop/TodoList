@@ -10,11 +10,14 @@
     border-radius: 15px;
     outline: none;
     top: -90px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
   .add-button{
     top: -93px;
     width: 100px;
     left: 10px;   
+    background-image: linear-gradient(rgb(18, 255, 184), rgb(86, 188, 196));
+    
   }
 
 
@@ -25,6 +28,7 @@
     margin: 10px;
     top: -90px;
     border: 2px solid;  
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
 
   
@@ -38,6 +42,7 @@
     border:2px solid; 
     padding: 5px;
     background-color:lightgrey;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
 
   .textTodoAmount{
@@ -45,6 +50,7 @@
     left: 1300px;
     top: -148px;
     max-width: 200px;
+    
   }
 
 
@@ -62,6 +68,7 @@
     position: relative;
     right: 500px;
     top:-90px;
+    background-image: linear-gradient(rgb(255, 187, 167), rgb(255, 237, 187));
   }
 
 
@@ -81,6 +88,7 @@
     left: -450px;
     top: -40px;
     max-width: 250px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
 
 .alert-select{
@@ -121,6 +129,7 @@
   justify-content: space-evenly;
   top: -160px;
   
+  
 
   
  
@@ -132,6 +141,8 @@
     flex-direction: column;
     margin: 10px;
     flex-basis: 25%;
+    
+    
   }
 }
 
@@ -144,35 +155,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 2px  solid;
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+  word-wrap: break-word;
+  
   
 
   >th {
     flex-basis: 25%;
     
     
+    
+    
   }
 
   >span {
     flex-basis: 5%;
-    
   }
 
   >div{
     flex-basis: 60%;
     width: 100px;
+    overflow: scroll;   
     
+     
     
-    
-  
   }
 
   >button {
     flex-basis: 10%;
+    
+    
   }
 
   .todo-name {
     
+   
     
 
     &.checked {
@@ -180,7 +197,7 @@
     }
 
    .EditText:hover{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(255, 255, 255);
    }
   }
 
@@ -190,18 +207,23 @@
 
 .High{
   border: 2px solid;
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+  
 }
 
 .Medium{
     border: 2px solid; 
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
 
 .Low{
   border: 2px solid; 
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
 
 .OnStand{
   border: 2px solid; 
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
 
 .rating{
@@ -214,10 +236,11 @@
   position: relative;
   left: 1460px;
   top:-95px ;
-  max-width: 500px;
+  width: 500px;
   height: 20px;
+  
 }
 
 .HoverOptions:hover{
-  background-color: rgb(233, 233, 233);
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
