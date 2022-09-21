@@ -17,12 +17,13 @@ import { FormControl } from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { BrowserRouter as Router, Routes, Route,Link } from "react-router-dom";
 import { ReactDOM } from 'react';
-import { Search } from "@mui/icons-material";
 import { EditText, EditTextarea } from 'react-edit-text';
 import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DatePicker } from "@mui/x-date-pickers";
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { LocalizationProvider } from '@mui/x-date-pickers';
 
 
 // what to work on : show finished, unfinished etc,
@@ -52,9 +53,7 @@ const TodoSet = ({}) => {
     const [select, setSelect] =useState("");
     const [Text, setText] = useState("")
     const [value ,setValue] = useState(0)
-    const [Show, SetShow] = useState(true)
-    const [Showall, SetShowAll] = useState(false)
-    const [startDate, setStartDate] = useState(new Date());
+    const [Show, SetShow] = useState("All");// all / unfinished / finished    
 
 
   
@@ -142,8 +141,7 @@ const TodoSet = ({}) => {
                 <Box >
                     <Item className="todo-item">
                         <th>{element.category}</th>
-                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} />
-                            
+                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} />    
                             <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
                                 <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"> </EditText>
                             </div>
@@ -156,7 +154,16 @@ const TodoSet = ({}) => {
         )}
 
 
-    
+    const ShowingElements =(element,index) =>{        
+        if (Show === "All"){
+            return(Todo_Box(element,index))
+        }
+        if (Show === "Unfinished" && element.Checked === false) {
+            return(Todo_Box(element,index)) 
+        } else if (Show === "Finished" && element.Checked === true)  {
+            return(Todo_Box(element,index)) 
+        }
+    }
 
     
 
@@ -164,6 +171,7 @@ const TodoSet = ({}) => {
         return(   
             
             todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{    
+                console.log(element)
                 return(ShowingElements(element,index))})
             )}
 
@@ -186,49 +194,26 @@ const TodoSet = ({}) => {
             todo.filter((element) => element.category === "On Standby").map((element, index)=>{
                 return(ShowingElements(element,index))})
             )}
-
-    const ShowingElements =(element,index) =>{
-        if (Showall === true){
-            return(Todo_Box(element,index))
-        }
-        return(
-            <div>
-                {todo.filter((element)=> element.Checked === false).map((element,index)=>{
-                    if (Show === true){
-                            return(Todo_Box(element,index))
-                            } })}
-
-                {todo.filter((element)=> element.Checked === true).map((element,index)=>{
-                    if (Show === false){
-                            return(Todo_Box(element,index))
-                        } })}
-            </div>
-        )
-                }
+    
 
     const ShowAll = () => {
-        console.log("all") 
-        SetShow(true)
-        SetShowAll(true)
+        SetShow("All") 
     }
 
     const ShowUnfineshed  = () => {
         console.log("unfinished")
-        SetShow(true)
-        SetShowAll(false)
+        SetShow("Unfinished")
     }
 
     const ShowFinished = () => {
         console.log("finished")
-        SetShow(false)
-        SetShowAll(false)
+        SetShow("Finished")
     }
 
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
-            
-
+        
             {/*Work on this  */}
             <div role="tabpanel">
                 <Box sx={{width: '100%'}} className="ShowSertainTodos">
@@ -298,7 +283,8 @@ const TodoSet = ({}) => {
                     <h3 className="OnStand">On Standby</h3>
                     <Stand/>  
                 </div>
-            </div>         
+            </div>   
+            
     </div>
     );}
 
