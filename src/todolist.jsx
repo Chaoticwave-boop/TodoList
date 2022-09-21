@@ -24,7 +24,16 @@ import Tab from '@mui/material/Tab';
 import { DatePicker } from "@mui/x-date-pickers";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
-
+import MomentUtils from '@date-io/moment'
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { useTheme } from '@mui/material/styles';
+import MobileStepper from '@mui/material/MobileStepper';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 // what to work on : show finished, unfinished etc,
 // perhaps making so you can put a date next to a todo?
@@ -32,7 +41,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 
 
 const TodoList = [{id: 1, name: "",category: "", }]
-
+const locales = ["en"]
 
 let i = 0;
 
@@ -53,7 +62,10 @@ const TodoSet = ({}) => {
     const [select, setSelect] =useState("");
     const [Text, setText] = useState("")
     const [value ,setValue] = useState(0)
-    const [Show, SetShow] = useState("All");// all / unfinished / finished    
+    const [Show, SetShow] = useState("All");
+    // date picker things:
+    const [locale, setLocale] = useState('fr')
+    const [dateValue, setDateValue] = useState(dayjs())
 
 
   
@@ -213,7 +225,12 @@ const TodoSet = ({}) => {
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
-        
+
+            {/* this works for now but try to add the datapicker : */}
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+
+            </LocalizationProvider>
+
             {/*Work on this  */}
             <div role="tabpanel">
                 <Box sx={{width: '100%'}} className="ShowSertainTodos">
