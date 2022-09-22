@@ -175,7 +175,7 @@
   >div{
     flex-basis: 60%;
     width: 100px;
-    overflow: scroll;   
+     
     
      
     
@@ -243,4 +243,12 @@
 
 .HoverOptions:hover{
   background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+
+
+.TimePicker{
+  position: relative;
+  width: 200px;
+  left: 920px;
+  top: -60px;
 }

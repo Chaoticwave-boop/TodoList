@@ -34,6 +34,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { set } from "date-fns/esm";
+import Stack from '@mui/material/Stack';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import TextField from '@mui/material/TextField';
+
+
 
 // what to work on : show finished, unfinished etc,
 // perhaps making so you can put a date next to a todo?
@@ -42,6 +49,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
+
 
 let i = 0;
 
@@ -64,12 +72,17 @@ const TodoSet = ({}) => {
     const [value ,setValue] = useState(0)
     const [Show, SetShow] = useState("All");
     // date picker things:
-    const [locale, setLocale] = useState('fr')
-    const [dateValue, setDateValue] = useState(dayjs())
+    const [locale, setLocale] = useState('fr');
+    const [dateValue, setDateValue] = useState(dayjs());
+    // new stuff
+    const [activeStep, setActiveStep] = useState(0);
+    
 
-
-  
-   
+    
+    
+   const selectLocale = (newLocale) => {
+        setLocale(newLocale);
+   }
 
     const handleValue = (event, newValue) => {
         setValue(newValue)
@@ -77,6 +90,8 @@ const TodoSet = ({}) => {
     }
    
     const updateTodo = event => {  
+        var date = dateValue.$d  ;
+        var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
@@ -99,7 +114,7 @@ const TodoSet = ({}) => {
         
       
         else{
-            setTodo([...todo, {id: i++, name:inputRef.current.value, category: select,Checked: false,}])
+            setTodo([...todo, {id: i++, name:inputRef.current.value, category: select,Checked: false,date: finaldate}])
         }
             
             
@@ -148,6 +163,7 @@ const TodoSet = ({}) => {
  
 
     const Todo_Box = (element, index) => {
+        
         return(
             <h2 key={index}>
                 <Box >
@@ -155,6 +171,7 @@ const TodoSet = ({}) => {
                         <th>{element.category}</th>
                         <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} />    
                             <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
+                                <p>{element.date}</p>
                                 <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"> </EditText>
                             </div>
                             <IconButton aria-label="delete" size="medium" className="newDelete">
@@ -183,7 +200,6 @@ const TodoSet = ({}) => {
         return(   
             
             todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{    
-                console.log(element)
                 return(ShowingElements(element,index))})
             )}
 
@@ -227,11 +243,22 @@ const TodoSet = ({}) => {
             <h1 className="textTodo"  >TodoList</h1>
 
             {/* this works for now but try to add the datapicker : */}
+        <Box className="TimePicker">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-
+                <Stack spacing={3}>
+                    <ToggleButtonGroup value={locale} exclusive sx={{ mb: 2, display: 'block' }}>
+                        {locales.map((localeItem)=>{
+                            <ToggleButton key={localeItem} value={localeItem} onClick={() => selectLocale(localeItem)}>
+                            </ToggleButton>
+                        })}
+                    </ToggleButtonGroup>
+                    <DatePicker value={dateValue}  onChange={(newValue) => setDateValue(newValue)}
+                    renderInput={(params) => <TextField {...params} />} >   
+                    </DatePicker>
+                </Stack>
             </LocalizationProvider>
-
-            {/*Work on this  */}
+        </Box>
+            {/*this WORKS !  */}
             <div role="tabpanel">
                 <Box sx={{width: '100%'}} className="ShowSertainTodos">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -271,13 +298,12 @@ const TodoSet = ({}) => {
                 <Button variant="contained" color="success" onClick={function(event){updateTodo()} } type="submit" className="add-button">Add</Button>
                 <p className="textTodoAmount">amount of Todo's:</p>
                 <p className="amountTodo">{todo.length}</p>
-
-
+                <img src="todocat-neutral.jpg"></img>
               
 
             </div>
 
-
+        <Box>
             <div className="todos-container">
                 <div className="high">
                     <Rating name="disabled" value={5} readOnly className="rating" />
@@ -301,7 +327,7 @@ const TodoSet = ({}) => {
                     <Stand/>  
                 </div>
             </div>   
-            
+        </Box>
     </div>
     );}
 
