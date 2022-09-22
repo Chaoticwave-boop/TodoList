@@ -66,8 +66,8 @@
 
   .DeleteAll{
     position: relative;
-    right: 500px;
-    top:-90px;
+    right: 200px;
+    top:-200px;
     background-image: linear-gradient(rgb(255, 187, 167), rgb(255, 237, 187));
   }
 
@@ -251,4 +251,34 @@
   width: 200px;
   left: 920px;
   top: -60px;
+}
+
+
+.catmascot{
+  position: absolute;
+  height: 190px;
+  width:170px;
+  right: 890px;
+  top: 33px;
+}
+
+
+.Tips{
+  position: absolute;
+  border: 2px solid; 
+  width: 200px;
+  top: 60px;
+  left: 210px;
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+  word-wrap: break-word;
+  border-radius: 25px;
+}
+
+
+.sleepycat{
+  position: absolute;
+  height: 600px;
+  width: 800px;
+  left: 560px;
+  top: 380px;
 }

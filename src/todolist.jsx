@@ -22,7 +22,7 @@ import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DatePicker } from "@mui/x-date-pickers";
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { ConnectingAirportsOutlined, ConstructionTwoTone } from "@mui/icons-material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import MomentUtils from '@date-io/moment'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -42,6 +42,7 @@ import TextField from '@mui/material/TextField';
 
 
 
+
 // what to work on : show finished, unfinished etc,
 // perhaps making so you can put a date next to a todo?
 
@@ -49,6 +50,7 @@ import TextField from '@mui/material/TextField';
 
 const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
+const Tips = ["Don't forget to check your email!","You can Do it !","You got this!"]
 
 
 let i = 0;
@@ -75,7 +77,11 @@ const TodoSet = ({}) => {
     const [locale, setLocale] = useState('fr');
     const [dateValue, setDateValue] = useState(dayjs());
     // new stuff
-    const [activeStep, setActiveStep] = useState(0);
+    const [image, setImage] = useState(["https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg"]);
+    const [num, setNum] = useState();
+    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg")
+    
+
     
 
     
@@ -89,7 +95,8 @@ const TodoSet = ({}) => {
         
     }
    
-    const updateTodo = event => {  
+    const updateTodo = event => { 
+        newImage() 
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
@@ -238,6 +245,33 @@ const TodoSet = ({}) => {
         SetShow("Finished")
     }
 
+    const newImage = () => {
+        
+        const firstImage = setTimeout(()=> {
+            setImage("https://i.im.ge/2022/09/22/1UJOcJ.todocatneutraltalk.jpg")
+            setNum(randomNumberRange(0, 2))
+        
+        },2000)         
+
+        const secondImage = setTimeout(()=>{
+            setImage("https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg")
+            setNum("")
+        }, 6000)
+    }
+
+        const randomNumberRange = (min,max) =>{
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }    
+
+        const Begin = () => {
+            if (todo.length === 0 ){
+            return(
+            <a>
+            <img src={beginImage}  
+            alt="todocatsleep" border="0" className="sleepycat"/>
+            </a> )}
+        }
+
     return(
     <div className="form">  
             <h1 className="textTodo"  >TodoList</h1>
@@ -298,7 +332,7 @@ const TodoSet = ({}) => {
                 <Button variant="contained" color="success" onClick={function(event){updateTodo()} } type="submit" className="add-button">Add</Button>
                 <p className="textTodoAmount">amount of Todo's:</p>
                 <p className="amountTodo">{todo.length}</p>
-                <img src="todocat-neutral.jpg"></img>
+                
               
 
             </div>
@@ -328,6 +362,20 @@ const TodoSet = ({}) => {
                 </div>
             </div>   
         </Box>
+      
+        <a className="catmascot">
+            <img src={image} 
+            alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
+        </a>
+
+        <Box className="Tips">
+            <div>
+                <p >{Tips[num]}</p>
+            </div>
+        </Box>           
+        
+        <Begin />
+        
     </div>
     );}
 
