@@ -1,0 +1,31 @@
+.coolCat{
+    position: relative;
+    height: 400px;
+    width: 510px;
+    left: 700px;
+    top: 50px;
+}
+
+.Nav{
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+
+.Link2{
+    position: absolute;
+    top: 1.6cm;
+     left: 40cm;
+    top: 24px;
+}
+
+
+.begin{
+    position: absolute;
+    width: 500px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+    top: 160px;
+    border-radius: 25px;
+}
+
+.name{
+    background-image: linear-gradient(rgb(255, 255, 255), rgb(205, 247, 250));
+}

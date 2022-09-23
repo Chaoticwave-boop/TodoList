@@ -6,7 +6,10 @@ import { ReactDOM } from 'react';
 import ListGame from './Mockup';
 // import Executeall from './Gamelist';
 import Todo from './todolist';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Hello from './NewPageTodo';
+import { BrowserRouter ,Routes, Route, Router } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -23,12 +26,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <Shoppinglist/>
-        <ThirdButton/>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Todo/>}></Route>
+            <Route path='/NewPage' element={<Hello/>}></Route>
+          </Routes>
+        </BrowserRouter>      
+
         
-        <Executeall/> */}
-        <Todo/>
-       
+        
       </div>
     );
   }

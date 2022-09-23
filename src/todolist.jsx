@@ -15,7 +15,6 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { BrowserRouter as Router, Routes, Route,Link } from "react-router-dom";
 import { ReactDOM } from 'react';
 import { EditText, EditTextarea } from 'react-edit-text';
 import Rating from '@mui/material/Rating';
@@ -39,14 +38,11 @@ import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from '@mui/material/TextField';
-
-
-
-
-// what to work on : show finished, unfinished etc,
-// perhaps making so you can put a date next to a todo?
-
-
+import Grow from '@mui/material/Grow';
+import MenuList from '@mui/material/MenuList';
+import Popper from '@mui/material/Popper';
+import Hello from "./NewPageTodo";
+import Link from '@mui/material/Link';
 
 const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
@@ -74,13 +70,14 @@ const TodoSet = ({}) => {
     const [value ,setValue] = useState(0)
     const [Show, SetShow] = useState("All");
     // date picker things:
-    const [locale, setLocale] = useState('fr');
+    const [locale, setLocale] = useState('en');
     const [dateValue, setDateValue] = useState(dayjs());
     // new stuff
     const [image, setImage] = useState(["https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg"]);
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg")
-    
+   
+
 
     
 
@@ -274,9 +271,14 @@ const TodoSet = ({}) => {
 
     return(
     <div className="form">  
-            <h1 className="textTodo"  >TodoList</h1>
+        <h1 className="textTodo"  >TodoList</h1>
+        <h2>
+            <Link href="http://127.0.0.1:5173/NewPage" underline="hover" className="Link">
+                Information
+            </Link>
+        </h2>
+    
 
-            {/* this works for now but try to add the datapicker : */}
         <Box className="TimePicker">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
                 <Stack spacing={3}>
@@ -292,11 +294,11 @@ const TodoSet = ({}) => {
                 </Stack>
             </LocalizationProvider>
         </Box>
-            {/*this WORKS !  */}
+        
             <div role="tabpanel">
-                <Box sx={{width: '100%'}} className="ShowSertainTodos">
+                <Box  className="ShowSertainTodos">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleValue}>
+                        <Tabs value={value} onChange={handleValue} >
                             <Tab label="Show all" onClick={ShowAll} className="HoverOptions" />
                             <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions" />
                             <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions" />
@@ -311,9 +313,9 @@ const TodoSet = ({}) => {
             
             <div className="Top-Container">
                 <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth className="Options">
-                        <InputLabel className="select">Urgent</InputLabel>
-                            <Select   onChange={HandleChange} value={select} label="Urgent">
+                    <FormControl fullWidth className="Options" >
+                        <InputLabel className="select" >Urgent</InputLabel>
+                            <Select   onChange={HandleChange} value={select} label="Urgent" >
                                 <MenuItem value={("High Priority")}>High Priority</MenuItem>
                                 <MenuItem value={("Medium Priority")}>Medium Priority</MenuItem>
                                 <MenuItem value={("Low Priority")}>Low Priority</MenuItem>
@@ -336,33 +338,34 @@ const TodoSet = ({}) => {
               
 
             </div>
+        
+            <Box>
+                <div className="todos-container">
+                    <div className="high">
+                        <Rating name="disabled" value={5} readOnly className="rating" />
+                        <h3 className="High">High Priority</h3>
+                        <High/>
+                    </div>
+                    <div className="medium">
+                        <Rating name="disabled" value={3} readOnly className="rating" />
+                        <h3 className="Medium"> Medium Priority</h3>
+                        <Medium/>
 
-        <Box>
-            <div className="todos-container">
-                <div className="high">
-                    <Rating name="disabled" value={5} readOnly className="rating" />
-                    <h3 className="High">High Priority</h3>
-                    <High/>
-                </div>
-                <div className="medium">
-                    <Rating name="disabled" value={3} readOnly className="rating" />
-                    <h3 className="Medium"> Medium Priority</h3>
-                    <Medium/>
-
-                </div>
-                <div className="low">
-                    <Rating name="disabled" value={2} readOnly className="rating" />
-                    <h3 className="Low"> Low Priority</h3>
-                    <Low/>
-                </div>
-                <div className="onstand">
-                    <Rating name="disabled" value={1} readOnly className="rating" />
-                    <h3 className="OnStand">On Standby</h3>
-                    <Stand/>  
-                </div>
-            </div>   
-        </Box>
+                    </div>
+                    <div className="low">
+                        <Rating name="disabled" value={2} readOnly className="rating" />
+                        <h3 className="Low"> Low Priority</h3>
+                        <Low/>
+                    </div>
+                    <div className="onstand">
+                        <Rating name="disabled" value={1} readOnly className="rating" />
+                        <h3 className="OnStand">On Standby</h3>
+                        <Stand/>  
+                    </div>
+                </div>   
+            </Box>
       
+
         <a className="catmascot">
             <img src={image} 
             alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
