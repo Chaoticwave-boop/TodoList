@@ -14,34 +14,19 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { ReactDOM } from 'react';
-import { EditText, EditTextarea } from 'react-edit-text';
+import { EditText } from 'react-edit-text';
 import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { DatePicker } from "@mui/x-date-pickers";
-import { ConnectingAirportsOutlined, ConstructionTwoTone } from "@mui/icons-material";
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import MomentUtils from '@date-io/moment'
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import { useTheme } from '@mui/material/styles';
-import MobileStepper from '@mui/material/MobileStepper';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { set } from "date-fns/esm";
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import TextField from '@mui/material/TextField';
-import Grow from '@mui/material/Grow';
-import MenuList from '@mui/material/MenuList';
-import Popper from '@mui/material/Popper';
-import Hello from "./NewPageTodo";
 import Link from '@mui/material/Link';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -86,7 +71,6 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
-    const [deleteTodo, setDelete] = useState(false);
     
  
    
