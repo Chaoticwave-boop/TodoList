@@ -41,7 +41,6 @@ const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
 const Tips = ["Don't forget to check your email!","You can Do it !","You got this!"]
 
-
 // importent 
 // JSON.stringify(data) 
 
@@ -73,6 +72,7 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
+    
         
     
    const selectLocale = (newLocale) => {
@@ -149,14 +149,17 @@ const TodoSet = ({}) => {
             setTodo((current) =>
                 current.filter(todoo => {
                     return todoo.id != key;
-                }));}
+                })
+                );
+            }
 
     
     const Enter = event => {
         if (event.key === "Enter"){
             event.preventDefault();
             updateTodo();
-        }}
+        }
+    }
     
     const HandleChange = (event) => {
         setSelect(event.target.value);
@@ -176,6 +179,7 @@ const TodoSet = ({}) => {
     const Todo_Box = (element, index) => {
         
         return(
+            
             <h2 key={index}>
                 <Box >
                     <Item className="todo-item">
@@ -258,8 +262,6 @@ const TodoSet = ({}) => {
 
 
     
-
-
     return(
     <div className="form">  
         <h1 className="textTodo"  >TodoList</h1>
@@ -386,8 +388,11 @@ const TodoSet = ({}) => {
                 </Dialog>
             </div>
     
+ {/* this is where json is going: */}
+ <FetchingData/>
+ 
+       
         
-
         
 
 
