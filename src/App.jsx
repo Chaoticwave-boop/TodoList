@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import './App.scss';
-// import Shoppinglist from './Boodschap';
 import { ReactDOM } from 'react';
-// import ThirdButton from './ButtonClicking';
-import ListGame from './Mockup';
-// import Executeall from './Gamelist';
 import Todo from './todolist';
 import Hello from './NewPageTodo';
 import { BrowserRouter ,Routes, Route, Router } from "react-router-dom";
-import { Link } from 'react-router-dom';
+
+
 
 
 
@@ -32,9 +29,8 @@ class App extends Component {
             <Route path='/NewPage' element={<Hello/>}></Route>
           </Routes>
         </BrowserRouter>      
-
         
-        
+    
       </div>
     );
   }

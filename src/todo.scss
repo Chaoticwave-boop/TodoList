@@ -13,9 +13,10 @@
     background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
   .add-button{
-    top: -93px;
+    position: absolute;
+    top: -150px;
     width: 100px;
-    left: 10px;   
+    left: 310px;   
     background-image: linear-gradient(rgb(18, 255, 184), rgb(86, 188, 196));
     
   }
@@ -34,23 +35,22 @@
   
 
   .amountTodo{
-    position: relative;
-    left: 1500px;
-    top: -190px;
+    position: absolute;
     margin: 10px;
-    max-width: 20px;
+    width: 20px;
     border:2px solid; 
     padding: 5px;
     background-color:lightgrey;
     background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+    left: 1490px;
+    top: 220px;
   }
 
   .textTodoAmount{
-    position: relative;
-    left: 1300px;
-    top: -148px;
+    position: absolute;
     max-width: 200px;
-    
+    left: 1340px;
+    top: 220px;
   }
 
 
@@ -258,8 +258,8 @@
   position: absolute;
   height: 190px;
   width:170px;
-  right: 890px;
-  top: 33px;
+  right: 1720px;
+  top: 65px;
 }
 
 
@@ -280,7 +280,8 @@
   height: 600px;
   width: 800px;
   left: 560px;
-  top: 390px;
+  top: 490px;
+  
 }
 
 .Link{

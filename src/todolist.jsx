@@ -43,6 +43,15 @@ import MenuList from '@mui/material/MenuList';
 import Popper from '@mui/material/Popper';
 import Hello from "./NewPageTodo";
 import Link from '@mui/material/Link';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 
 const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
@@ -75,7 +84,11 @@ const TodoSet = ({}) => {
     // new stuff
     const [image, setImage] = useState(["https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg"]);
     const [num, setNum] = useState();
-    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg")
+    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
+    const [confirm, setComfirm] = useState(false);
+    const [deleteTodo, setDelete] = useState(false);
+    
+ 
    
 
 
@@ -97,6 +110,7 @@ const TodoSet = ({}) => {
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
+        console.log(finaldate.length)
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
             setopen(true);}
@@ -116,6 +130,9 @@ const TodoSet = ({}) => {
             setText("Please type a longer sentence");
             setopen(true);}
         
+        else if (finaldate.length == 11){
+            setText("Please put in a valid date")
+            setopen(true);}
       
         else{
             setTodo([...todo, {id: i++, name:inputRef.current.value, category: select,Checked: false,date: finaldate}])
@@ -125,24 +142,35 @@ const TodoSet = ({}) => {
         inputRef.current.value = ""
     }
        
+
+
     const DeleteTodoAll = () => {
-        setTodo([]);
+            setTodo([])
+        }
+    
+
+    const Comfirmed = () => {
+        if (todo.length > 0){
+            setComfirm(true)
+        }
     }
     
 
     const handleClose = () =>{
         setopen(false);
+        setComfirm(false);
     }
+
 
 
     const deleteToDo = (key) => {    
         // var list = [...todo];
         // // list.splice(key, 1)  
         // // setTodo(list);
-        setTodo((current) =>
-            current.filter(todoo => {
-                return todoo.id != key;
-            }));}
+            setTodo((current) =>
+                current.filter(todoo => {
+                    return todoo.id != key;
+                }));}
 
     
     const Enter = event => {
@@ -326,16 +354,22 @@ const TodoSet = ({}) => {
 
                 
               
-                <Button variant="outlined" color="error" className="DeleteAll" onClick={DeleteTodoAll}>Delete All</Button>
+                <Button variant="outlined" color="error" className="DeleteAll" onClick={Comfirmed}>Delete All</Button>
             
 
                 <input className="input" placeholder="Add Task"  onKeyPress={Enter} ref={inputRef} type="text" autoComplete="off"  />
-
-                <Button variant="contained" color="success" onClick={function(event){updateTodo()} } type="submit" className="add-button">Add</Button>
+                
+                <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                    <Fab aria-label="add" onClick={function(event){updateTodo()} } type="submit" className="add-button">
+                        <AddIcon/>
+                    </Fab>
+                </Box>
+               
                 <p className="textTodoAmount">amount of Todo's:</p>
                 <p className="amountTodo">{todo.length}</p>
                 
-              
+               
+                
 
             </div>
         
@@ -366,10 +400,10 @@ const TodoSet = ({}) => {
             </Box>
       
 
-        <a className="catmascot">
-            <img src={image} 
-            alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
-        </a>
+    
+        <img src={image} 
+        alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
+      
 
         <Box className="Tips">
             <div>
@@ -378,7 +412,22 @@ const TodoSet = ({}) => {
         </Box>           
         
         <Begin />
-        
+
+            <div>
+                <Dialog open={confirm} onClose={handleClose}  aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title" >{"are you sure you want to delete all?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>Warning this deletes EVERYTHING your completed & uncompleted todo's</DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={()=>{handleClose()}}>Disagree</Button>
+                    <Button onClick={()=>{handleClose(),DeleteTodoAll()}} autoFocus>
+                        Agree
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
     </div>
     );}
 

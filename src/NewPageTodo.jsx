@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@mui/material";
-import "./newPage.css"
+import "./newPage.scss"
 
 const Hello = () => {
     const CatImage = () => {
@@ -11,6 +11,21 @@ const Hello = () => {
         </a>)
     }
  
+
+    const MadeBy= () => {
+        return(
+            <div>
+                <h1 className="begin">
+                    this was made by:
+                </h1>
+                <h2 className="name">
+                    Brenda
+                </h2>
+            </div>
+        )}
+
+    
+    
 
     return(
         <div>
@@ -23,11 +38,7 @@ const Hello = () => {
                 Information
             </h1>
             <CatImage/>
-
-            <h1 className="begin">this was made by:
-                <p className="name">Brenda</p>
-            </h1>
-
+            <MadeBy/>    
         </div>
     )
     
