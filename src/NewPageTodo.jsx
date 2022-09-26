@@ -25,7 +25,6 @@ const Hello = () => {
         )}
 
     
-    
 
     return(
         <div>

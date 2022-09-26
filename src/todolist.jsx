@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import './todo.scss';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -35,13 +35,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-
+import FetchingData from "./GetData";
 
 const TodoList = [{id: 1, name: "",category: "", }]
 const locales = ["en"]
 const Tips = ["Don't forget to check your email!","You can Do it !","You got this!"]
 
+
+// importent 
+// JSON.stringify(data) 
 
 let i = 0;
 
@@ -71,14 +73,7 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
-    
- 
-   
-
-
-    
-
-    
+        
     
    const selectLocale = (newLocale) => {
         setLocale(newLocale);
@@ -196,49 +191,18 @@ const TodoSet = ({}) => {
                     </Item>
                 </Box>
             </h2>        
-        )}
-
-
-    const ShowingElements =(element,index) =>{        
-        if (Show === "All"){
-            return(Todo_Box(element,index))
-        }
-        if (Show === "Unfinished" && element.Checked === false) {
-            return(Todo_Box(element,index)) 
-        } else if (Show === "Finished" && element.Checked === true)  {
-            return(Todo_Box(element,index)) 
-        }
+        )
     }
 
-    
+ 
 
-   const High = () => {
-        return(   
-            
-            todo.filter((element) => element.category === "High Priority" ).map((element, index)=>{    
-                return(ShowingElements(element,index))})
-            )}
-
-
-    const Medium = () => {
-        return(
-            todo.filter((element) => element.category === "Medium Priority").map((element, index)=>{
-                return(ShowingElements(element,index))})
-            )}
-
-    const Low = () => {
-        return(
-            todo.filter((element) => element.category === "Low Priority").map((element, index)=>{
-                return(ShowingElements(element,index))})
-            )}
-
-
-    const Stand = () => {
-        return(
-            todo.filter((element) => element.category === "On Standby").map((element, index)=>{
-                return(ShowingElements(element,index))})
-            )}
-    
+    const TodoItems = (props) => {
+        return (   
+            props.todos.filter((element) => element.category === props.category ).map((element, index) => {
+                return (Todo_Box(element,index))
+            })
+        )
+    }
 
     const ShowAll = () => {
         SetShow("All") 
@@ -280,6 +244,21 @@ const TodoSet = ({}) => {
             alt="todocatsleep" border="0" className="sleepycat"/>
             </a> )}
         }
+
+
+    const visibleTodos = useMemo(() => todo.filter(element => {
+        if (Show === "All" 
+        || (Show === "Unfinished" && element.Checked === false)
+        || (Show === "Finished" && element.Checked === true))  {
+            return true; 
+        }
+
+        return false;
+    }, [ Show, todo ]));
+
+
+    
+
 
     return(
     <div className="form">  
@@ -328,10 +307,9 @@ const TodoSet = ({}) => {
                     <FormControl fullWidth className="Options" >
                         <InputLabel className="select" >Urgent</InputLabel>
                             <Select   onChange={HandleChange} value={select} label="Urgent" >
-                                <MenuItem value={("High Priority")}>High Priority</MenuItem>
-                                <MenuItem value={("Medium Priority")}>Medium Priority</MenuItem>
-                                <MenuItem value={("Low Priority")}>Low Priority</MenuItem>
-                                <MenuItem value={("On Standby")}>On Standby</MenuItem>
+                                <MenuItem value={("Home")}>Home</MenuItem>
+                                <MenuItem value={("Work")}>Work</MenuItem>
+                                <MenuItem value={("School")}>School</MenuItem>
                             </Select> 
                     </FormControl> 
                 </Box>
@@ -361,24 +339,19 @@ const TodoSet = ({}) => {
                 <div className="todos-container">
                     <div className="high">
                         <Rating name="disabled" value={5} readOnly className="rating" />
-                        <h3 className="High">High Priority</h3>
-                        <High/>
+                        <h3 className="High">Home</h3>
+                        <TodoItems category="Home" todos={visibleTodos} />
                     </div>
                     <div className="medium">
                         <Rating name="disabled" value={3} readOnly className="rating" />
-                        <h3 className="Medium"> Medium Priority</h3>
-                        <Medium/>
+                        <h3 className="Medium">Work</h3>
+                        <TodoItems category="Work" todos={visibleTodos} />
 
                     </div>
                     <div className="low">
                         <Rating name="disabled" value={2} readOnly className="rating" />
-                        <h3 className="Low"> Low Priority</h3>
-                        <Low/>
-                    </div>
-                    <div className="onstand">
-                        <Rating name="disabled" value={1} readOnly className="rating" />
-                        <h3 className="OnStand">On Standby</h3>
-                        <Stand/>  
+                        <h3 className="Low"> School</h3>
+                        <TodoItems category="School" todos={visibleTodos} />
                     </div>
                 </div>   
             </Box>
@@ -396,7 +369,7 @@ const TodoSet = ({}) => {
         </Box>           
         
         <Begin />
-
+    
             <div>
                 <Dialog open={confirm} onClose={handleClose}  aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
@@ -412,6 +385,12 @@ const TodoSet = ({}) => {
                     </DialogActions>
                 </Dialog>
             </div>
+    
+        
+
+        
+
+
     </div>
     );}
 
