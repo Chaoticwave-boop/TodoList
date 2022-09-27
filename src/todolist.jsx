@@ -1,10 +1,8 @@
 import React, { useReducer } from "react";
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo,useEffect } from "react";
 import './todo.scss';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Checkbox from '@mui/material/Checkbox';
+
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Box from '@mui/material/Box';
@@ -14,7 +12,6 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { FormControl } from "@mui/material";
-import { EditText } from 'react-edit-text';
 import Rating from '@mui/material/Rating';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -35,9 +32,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import FetchingData from "./GetData";
+import TodoItems from "./TodoItems"
 
-const TodoList = [{id: 1, name: "",category: "", }]
+
 const locales = ["en"]
 const Tips = ["Don't forget to check your email!","You can Do it !","You got this!"]
 
@@ -72,7 +69,15 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
+    const [todoList, setTodoList] = useState([]);
+
     
+    const options = {method: 'GET', headers: {Accept: 'application/json'}};
+    useEffect(() => {
+        fetch('http://localhost:8080/api/todos', options)
+        .then(response => { return response.json()})
+        .then (data => {setTodoList(data)},[ todo ]) //setTodolis hoort setTodo te zijn but does not work yet
+    })
         
     
    const selectLocale = (newLocale) => {
@@ -85,11 +90,12 @@ const TodoSet = ({}) => {
     }
    
     const updateTodo = event => { 
+        console.log(todoList)
+
         newImage() 
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
-        console.log(finaldate.length)
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
             setopen(true);}
@@ -169,44 +175,12 @@ const TodoSet = ({}) => {
    
     const EditTodo = (key) => setTodo(todo.map(t => t.id == key.name ? {...t, name: key.value}: t));
     
-    
-
                                                     // dit is eigelijk hetzelde als en if en else statement
-    const check = (val, id) => setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
-
- 
-
-    const Todo_Box = (element, index) => {
-        
-        return(
-            
-            <h2 key={index}>
-                <Box >
-                    <Item className="todo-item">
-                        <th>{element.category}</th>
-                        <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => check(val, element.id)} />    
-                            <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
-                                <p>{element.date}</p>
-                                <EditText name={element.id} defaultValue={element.name} type="text" onSave={EditTodo} className="EditText"> </EditText>
-                            </div>
-                            <IconButton aria-label="delete" size="medium" className="newDelete">
-                                <DeleteIcon fontSize="inherit" onClick={() => deleteToDo(element.id)} />
-                            </IconButton>
-                    </Item>
-                </Box>
-            </h2>        
-        )
+    const check = (val, id) => {
+        setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
     }
 
  
-
-    const TodoItems = (props) => {
-        return (   
-            props.todos.filter((element) => element.category === props.category ).map((element, index) => {
-                return (Todo_Box(element,index))
-            })
-        )
-    }
 
     const ShowAll = () => {
         SetShow("All") 
@@ -223,7 +197,6 @@ const TodoSet = ({}) => {
     }
 
     const newImage = () => {
-        
         const firstImage = setTimeout(()=> {
             setImage("https://i.im.ge/2022/09/22/1UJOcJ.todocatneutraltalk.jpg")
             setNum(randomNumberRange(0, 2))
@@ -264,6 +237,7 @@ const TodoSet = ({}) => {
     
     return(
     <div className="form">  
+       
         <h1 className="textTodo"  >TodoList</h1>
         <h2>
             <Link href="http://127.0.0.1:5173/NewPage" underline="hover" className="Link">
@@ -271,6 +245,7 @@ const TodoSet = ({}) => {
             </Link>
         </h2>
     
+        
 
         <Box className="TimePicker">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
@@ -287,7 +262,7 @@ const TodoSet = ({}) => {
                 </Stack>
             </LocalizationProvider>
         </Box>
-        
+            
             <div role="tabpanel">
                 <Box  className="ShowSertainTodos">
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -342,18 +317,18 @@ const TodoSet = ({}) => {
                     <div className="high">
                         <Rating name="disabled" value={5} readOnly className="rating" />
                         <h3 className="High">Home</h3>
-                        <TodoItems category="Home" todos={visibleTodos} />
+                        <TodoItems category="Home" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
                     </div>
                     <div className="medium">
                         <Rating name="disabled" value={3} readOnly className="rating" />
                         <h3 className="Medium">Work</h3>
-                        <TodoItems category="Work" todos={visibleTodos} />
+                        <TodoItems category="Work" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
 
                     </div>
                     <div className="low">
                         <Rating name="disabled" value={2} readOnly className="rating" />
                         <h3 className="Low"> School</h3>
-                        <TodoItems category="School" todos={visibleTodos} />
+                        <TodoItems category="School" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
                     </div>
                 </div>   
             </Box>
@@ -387,13 +362,6 @@ const TodoSet = ({}) => {
                     </DialogActions>
                 </Dialog>
             </div>
-    
- {/* this is where json is going: */}
- <FetchingData/>
- 
-       
-        
-        
 
 
     </div>
