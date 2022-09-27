@@ -76,8 +76,8 @@ const TodoSet = ({}) => {
     useEffect(() => {
         fetch('http://localhost:8080/api/todos', options)
         .then(response => { return response.json()})
-        .then (data => {setTodoList(data)},[ todo ]) //setTodolis hoort setTodo te zijn but does not work yet
-    })
+        .then (data => {setTodoList(data)}) //setTodolist hoort setTodo te zijn but does not work yet
+    },[todo]);
         
     
    const selectLocale = (newLocale) => {
@@ -86,7 +86,6 @@ const TodoSet = ({}) => {
 
     const handleValue = (event, newValue) => {
         setValue(newValue)
-        
     }
    
     const updateTodo = event => { 
