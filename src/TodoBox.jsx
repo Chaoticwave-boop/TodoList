@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { EditText } from "react-edit-text";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import './todo.scss';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +25,11 @@ const TodoBox = (element, index, editCallback, deleteCallback, checkCallback) =>
         <h2 key={index}>
             <Box >
                 <Item className="todo-item">
-                    <th>{element.category}</th>
-                    <Checkbox color="success" placeholder="check" className="check" checked={element.Checked} onChange={(e, val) => checkCallback(val, element.id)} />    
-                        <div className={`todo-name ${element.Checked ? "checked" : ""}`}>
+                    <th>{element.todoType.name}</th>
+                    <Checkbox color="success" placeholder="check" className="check" checked={element.done} onChange={(e, val) => checkCallback(val, element.id)} />    
+                        <div className={`todo-name ${element.done ? "checked" : ""}`}>
                             <p>{element.date}</p>
-                            <EditText name={element.id} defaultValue={element.name} type="text" onSave={editCallback} className="EditText"> </EditText>
+                            <EditText name={element.id} defaultValue={element.description} type="text" onSave={editCallback} className="EditText"> </EditText>
                         </div>
                         <IconButton aria-label="delete" size="medium" className="newDelete">
                             <DeleteIcon fontSize="inherit" onClick={() => deleteCallback(element.id)} />

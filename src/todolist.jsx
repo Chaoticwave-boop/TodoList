@@ -2,7 +2,6 @@ import React, { useReducer } from "react";
 import { useRef, useState, useMemo,useEffect } from "react";
 import './todo.scss';
 import Button from '@mui/material/Button';
-
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Box from '@mui/material/Box';
@@ -41,7 +40,6 @@ const Tips = ["Don't forget to check your email!","You can Do it !","You got thi
 // importent 
 // JSON.stringify(data) 
 
-let i = 0;
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -56,30 +54,52 @@ const Item = styled(Paper)(({ theme }) => ({
 const TodoSet = ({}) => {
     const inputRef = useRef(null);
     const [todo, setTodo] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [open, setopen] = useState(false);
     const [select, setSelect] =useState("");
     const [Text, setText] = useState("")
     const [value ,setValue] = useState(0)
     const [Show, SetShow] = useState("All");
-    // date picker things:
     const [locale, setLocale] = useState('en');
     const [dateValue, setDateValue] = useState(dayjs());
-    // new stuff
     const [image, setImage] = useState(["https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg"]);
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
-    const [todoList, setTodoList] = useState([]);
 
+    const optionsCategories = {method: 'GET', headers: {Accept: 'application/json'}};
+    useEffect(() => {
+        fetch('http://localhost:8080/api/todotypes', optionsCategories)
+        .then(response => response.json())
+        .then(data => {setCategories(data)})
+    },[categories])
     
+      
     const options = {method: 'GET', headers: {Accept: 'application/json'}};
     useEffect(() => {
         fetch('http://localhost:8080/api/todos', options)
         .then(response => { return response.json()})
-        .then (data => {setTodoList(data)}) //setTodolist hoort setTodo te zijn but does not work yet
+        .then (data => {setTodo(data)}) 
     },[todo]);
-        
-    
+
+    // i think this is how it gonna work? maybe?
+    // i think i have to use json.stringefy on the body part?!
+    // maybe make the input go into another useState and stringefy that part?
+
+
+    // const optionsSend = {
+    //     method: 'POST',                                                                          
+    //     headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+    //     body: '{"description":"eat a cake","typeId":1}'                                                                   
+    //   };                                                                                        
+    //   useEffect(() => {                                                                                      
+    //     fetch('http://localhost:8080/api/todos', optionsSend)                        
+    //     .then(response => response.json())
+    //   },[todo])
+
+
+    let i = todo.length
+
    const selectLocale = (newLocale) => {
         setLocale(newLocale);
    }
@@ -89,26 +109,24 @@ const TodoSet = ({}) => {
     }
    
     const updateTodo = event => { 
-        console.log(todoList)
-
+        console.log(todo)
         newImage() 
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
+
+
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
             setopen(true);}
-
 
         else if (select === "") {
             setText("please select an Urgent");
             setopen(true);}
 
-
         else if (select === select && inputRef.current.value ==""){
             setText("Please Type a Todo");
             setopen(true);}
-
 
         else if (inputRef.current.value.length < 3 ){
             setText("Please type a longer sentence");
@@ -119,7 +137,7 @@ const TodoSet = ({}) => {
             setopen(true);}
       
         else{
-            setTodo([...todo, {id: i++, name:inputRef.current.value, category: select,Checked: false,date: finaldate}])
+            setTodo([...todo, {id: i++, description:inputRef.current.value, todoType:{name:select} ,done:false ,date: finaldate}])
         }
             
             
@@ -172,11 +190,11 @@ const TodoSet = ({}) => {
 
     
    
-    const EditTodo = (key) => setTodo(todo.map(t => t.id == key.name ? {...t, name: key.value}: t));
+    const EditTodo = (key) => setTodo(todo.map(t => t.id == key.description ? {...t, description: key.value}: t));
     
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => {
-        setTodo(todo.map(t => t.id == id ? {...t, Checked: val} : t))
+        setTodo(todo.map(t => t.id == id ? {...t, done: val} : t))
     }
 
  
@@ -224,8 +242,8 @@ const TodoSet = ({}) => {
 
     const visibleTodos = useMemo(() => todo.filter(element => {
         if (Show === "All" 
-        || (Show === "Unfinished" && element.Checked === false)
-        || (Show === "Finished" && element.Checked === true))  {
+        || (Show === "Unfinished" && element.done === false)
+        || (Show === "Finished" && element.done === true))  {
             return true; 
         }
 
@@ -233,7 +251,7 @@ const TodoSet = ({}) => {
     }, [ Show, todo ]));
 
 
-    
+  
     return(
     <div className="form">  
        
@@ -283,9 +301,8 @@ const TodoSet = ({}) => {
                     <FormControl fullWidth className="Options" >
                         <InputLabel className="select" >Urgent</InputLabel>
                             <Select   onChange={HandleChange} value={select} label="Urgent" >
-                                <MenuItem value={("Home")}>Home</MenuItem>
-                                <MenuItem value={("Work")}>Work</MenuItem>
-                                <MenuItem value={("School")}>School</MenuItem>
+                                {categories.map((category) => <MenuItem value={category.id}>{category.name}</MenuItem>)}
+                                
                             </Select> 
                     </FormControl> 
                 </Box>
@@ -316,12 +333,12 @@ const TodoSet = ({}) => {
                     <div className="high">
                         <Rating name="disabled" value={5} readOnly className="rating" />
                         <h3 className="High">Home</h3>
-                        <TodoItems category="Home" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
+                        <TodoItems category="Thuis" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
                     </div>
                     <div className="medium">
                         <Rating name="disabled" value={3} readOnly className="rating" />
                         <h3 className="Medium">Work</h3>
-                        <TodoItems category="Work" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
+                        <TodoItems category="Werk" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
 
                     </div>
                     <div className="low">
