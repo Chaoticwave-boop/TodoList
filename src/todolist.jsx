@@ -66,43 +66,29 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
+    const [newTodo, setNewTodo] = useState([]);
 
-    const optionsCategories = {method: 'GET', headers: {Accept: 'application/json'}};
-    useEffect(() => {
-        fetch('http://localhost:8080/api/todotypes', optionsCategories)
-        .then(response => response.json())
-        .then(data => {setCategories(data)})
-    },[categories])
     
-      
-    const options = {method: 'GET', headers: {Accept: 'application/json'}};
-    useEffect(() => {
+    const GettingTodo = () => {
+        const options = {method: 'GET', headers: {Accept: 'application/json'}};
         fetch('http://localhost:8080/api/todos', options)
-        .then(response => { return response.json()})
-        .then (data => {setTodo(data)}) 
-    },[todo]);
+            .then(response => { return response.json()})
+            .then(dataTodos => setTodo(dataTodos))
+    };
 
-    // i think this is how it gonna work? maybe?
-    // i think i have to use json.stringefy on the body part?!
-    // maybe make the input go into another useState and stringefy that part?
+    useEffect(() => {
+        const optionsCategories = {method: 'GET', headers: {Accept: 'application/json'}};
+        fetch('http://localhost:8080/api/todotypes', optionsCategories)
+            .then(response => response.json())
+            .then(data => {setCategories(data)})
+    }, []);
+    
+    
+    useEffect(() => GettingTodo(), []);
 
-
-    // const optionsSend = {
-    //     method: 'POST',                                                                          
-    //     headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
-    //     body: '{"description":"eat a cake","typeId":1}'                                                                   
-    //   };                                                                                        
-    //   useEffect(() => {                                                                                      
-    //     fetch('http://localhost:8080/api/todos', optionsSend)                        
-    //     .then(response => response.json())
-    //   },[todo])
-
-
-    let i = todo.length
-
-   const selectLocale = (newLocale) => {
+    const selectLocale = (newLocale) => {
         setLocale(newLocale);
-   }
+    }
 
     const handleValue = (event, newValue) => {
         setValue(newValue)
@@ -110,51 +96,57 @@ const TodoSet = ({}) => {
    
     const updateTodo = event => { 
         console.log(todo)
+        console.log(select)
         newImage() 
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
 
-
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
-            setopen(true);}
-
-        else if (select === "") {
+            setopen(true);
+        } else if (select === "") {
             setText("please select an Urgent");
-            setopen(true);}
-
-        else if (select === select && inputRef.current.value ==""){
+            setopen(true);
+        } else if (select === select && inputRef.current.value ==""){
             setText("Please Type a Todo");
-            setopen(true);}
-
-        else if (inputRef.current.value.length < 3 ){
+            setopen(true);
+        } else if (inputRef.current.value.length < 3 ){
             setText("Please type a longer sentence");
-            setopen(true);}
-        
-        else if (finaldate.length == 11){
+            setopen(true);
+        } else if (finaldate.length == 11){
             setText("Please put in a valid date")
-            setopen(true);}
-      
-        else{
-            setTodo([...todo, {id: i++, description:inputRef.current.value, todoType:{name:select} ,done:false ,date: finaldate}])
+            setopen(true);
+        } else {
+            const optionsSend = {
+                method: 'POST',                                                                          
+                headers: {Accept: 'application/json', 'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    description: inputRef.current.value,
+                    typeId: select
+                })                                                               
+            };                                                                                                                                                                                       
+            fetch('http://localhost:8080/api/todos', optionsSend)                        
+                .then(response => response.json())
+                .then(data => {
+                    GettingTodo();
+                })  
         }
-            
             
         inputRef.current.value = ""
     }
        
 
-
     const DeleteTodoAll = () => {
             setTodo([])
+            const optionsDelete = {method: 'DELETE'};
+            fetch('http://localhost:8080/api/todos/3', optionsDelete)
+                .then(response => response.json())
         }
     
 
     const Comfirmed = () => {
-        if (todo.length > 0){
-            setComfirm(true)
-        }
+        setComfirm(true)
     }
     
 
@@ -188,9 +180,23 @@ const TodoSet = ({}) => {
         setSelect(event.target.value);
     };
 
-    
    
-    const EditTodo = (key) => setTodo(todo.map(t => t.id == key.description ? {...t, description: key.value}: t));
+    const EditTodo = (key) => {
+        // setTodo(todo.map(t => t.id == key.description ? {...t, description: key.value}: t));
+        const Fetching = "http://localhost:8080/api/todos/";
+        const keyname = key.name
+        console.log(Fetching.concat(keyname))
+
+        const optionsEdit = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"description":key.value,"typeId":1,"done":false})
+          };
+
+          fetch(Fetching.concat(keyname), optionsEdit)
+            .then(response => response.json())
+    }
+    
     
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => {
@@ -198,7 +204,6 @@ const TodoSet = ({}) => {
     }
 
  
-
     const ShowAll = () => {
         SetShow("All") 
     }
@@ -262,7 +267,6 @@ const TodoSet = ({}) => {
             </Link>
         </h2>
     
-        
 
         <Box className="TimePicker">
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
@@ -327,7 +331,7 @@ const TodoSet = ({}) => {
                 
 
             </div>
-        
+        {/* probeer deze dinamies te maken */}
             <Box>
                 <div className="todos-container">
                     <div className="high">
