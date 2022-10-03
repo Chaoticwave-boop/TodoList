@@ -66,7 +66,7 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
-    const [newTodo, setNewTodo] = useState([]);
+
 
     
     const GettingTodo = () => {
@@ -88,11 +88,11 @@ const TodoSet = ({}) => {
 
     const selectLocale = (newLocale) => {
         setLocale(newLocale);
-    }
+    };
 
     const handleValue = (event, newValue) => {
         setValue(newValue)
-    }
+    };
    
     const updateTodo = event => { 
         console.log(todo)
@@ -134,89 +134,106 @@ const TodoSet = ({}) => {
         }
             
         inputRef.current.value = ""
-    }
+    };
        
 
     const DeleteTodoAll = () => {
             setTodo([])
-            const optionsDelete = {method: 'DELETE'};
-            fetch('http://localhost:8080/api/todos/3', optionsDelete)
+            const optionsDeleteAll = {method: 'DELETE'};
+            fetch('http://localhost:8080/api/todos', optionsDeleteAll)
                 .then(response => response.json())
-        }
+        };
     
 
     const Comfirmed = () => {
         setComfirm(true)
-    }
+    };
     
 
     const handleClose = () =>{
         setopen(false);
         setComfirm(false);
-    }
+    };
 
 
 
     const deleteToDo = (key) => {    
-        // var list = [...todo];
-        // // list.splice(key, 1)  
-        // // setTodo(list);
+        const fetching = "http://localhost:8080/api/todos/"
+        const optionsDelete = {method: 'DELETE', headers: {Accept: 'application/json'}};
+            fetch(fetching.concat(key), optionsDelete)
+                .then(response => response.json())
+
             setTodo((current) =>
                 current.filter(todoo => {
                     return todoo.id != key;
                 })
                 );
-            }
+            };
 
     
     const Enter = event => {
         if (event.key === "Enter"){
             event.preventDefault();
             updateTodo();
-        }
-    }
+        };
+    };
     
     const HandleChange = (event) => {
         setSelect(event.target.value);
     };
 
-   
-    const EditTodo = (key) => {
-        // setTodo(todo.map(t => t.id == key.description ? {...t, description: key.value}: t));
+    const HandleEdit = (filteredId, key) => {
         const Fetching = "http://localhost:8080/api/todos/";
         const keyname = key.name
-        console.log(Fetching.concat(keyname))
-
+        console.log(filteredId)
         const optionsEdit = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"description":key.value,"typeId":1,"done":false})
+            body: JSON.stringify({"description":key.value,"typeId":filteredId.todoType.id,"done":filteredId.done})
           };
-
           fetch(Fetching.concat(keyname), optionsEdit)
             .then(response => response.json())
-    }
+    };
+   
+    const EditTodo = (key) => {
+        todo.filter(t => t.id == key.name).map(filteredId => (
+            HandleEdit(filteredId, key)
+        ));
+    };
     
-    
+    const HandleCheck = (filteredCheck, val, id) => {
+        const Fetching = "http://localhost:8080/api/todos/";
+        const optionsCheck = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"description":filteredCheck.description,"typeId":filteredCheck.todoType.id,"done":val})
+          };
+          fetch(Fetching.concat(id), optionsCheck)
+            .then(response => response.json())
+    };
+
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => {
         setTodo(todo.map(t => t.id == id ? {...t, done: val} : t))
-    }
+        todo.filter(t => t.id == id).map(filteredCheck => (
+            HandleCheck(filteredCheck, val, id)
+        ))
+    };
 
  
     const ShowAll = () => {
         SetShow("All") 
-    }
+    };
 
     const ShowUnfineshed  = () => {
         console.log("unfinished")
         SetShow("Unfinished")
-    }
+    };
 
     const ShowFinished = () => {
         console.log("finished")
         SetShow("Finished")
-    }
+    };
 
     const newImage = () => {
         const firstImage = setTimeout(()=> {
@@ -229,11 +246,11 @@ const TodoSet = ({}) => {
             setImage("https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg")
             setNum("")
         }, 6000)
-    }
+    };
 
         const randomNumberRange = (min,max) =>{
             return Math.floor(Math.random() * (max - min + 1)) + min;
-        }    
+        };  
 
         const Begin = () => {
             if (todo.length === 0 ){
@@ -242,7 +259,7 @@ const TodoSet = ({}) => {
             <img src={beginImage}  
             alt="todocatsleep" border="0" className="sleepycat"/>
             </a> )}
-        }
+        };
 
 
     const visibleTodos = useMemo(() => todo.filter(element => {
@@ -256,6 +273,12 @@ const TodoSet = ({}) => {
     }, [ Show, todo ]));
 
 
+    const TypeTodo = () => {
+        const optionsType = {method: 'GET', headers: {Accept: 'application/json'}};
+        fetch('http://localhost:8080/api/todotypes', optionsType)
+            .then(response => response.json())
+            .then(data => console.log(data))
+    }
   
     return(
     <div className="form">  
@@ -332,6 +355,7 @@ const TodoSet = ({}) => {
 
             </div>
         {/* probeer deze dinamies te maken */}
+
             <Box>
                 <div className="todos-container">
                     <div className="high">
