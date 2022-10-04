@@ -29,7 +29,7 @@ const TodoBox = (element, index, editCallback, deleteCallback, checkCallback) =>
                     <Checkbox color="success" placeholder="check" className="check" checked={element.done} onChange={(e, val) => checkCallback(val, element.id)} />    
                         <div className={`todo-name ${element.done ? "checked" : ""}`}>
                             <p>{element.date}</p>
-                            <EditText name={element.id} defaultValue={element.description} type="text" onSave={editCallback} className="EditText"> </EditText>
+                            <EditText name={element.id} defaultValue={element.description} type="text" onSave={(key) => editCallback(key, element)} className="EditText"> </EditText>
                         </div>
                         <IconButton aria-label="delete" size="medium" className="newDelete">
                             <DeleteIcon fontSize="inherit" onClick={() => deleteCallback(element.id)} />

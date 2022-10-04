@@ -32,14 +32,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import TodoItems from "./TodoItems"
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 
 const locales = ["en"]
 const Tips = ["Don't forget to check your email!","You can Do it !","You got this!"]
-
-// importent 
-// JSON.stringify(data) 
-
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -48,8 +47,6 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   }));
-  
-
 
 const TodoSet = ({}) => {
     const inputRef = useRef(null);
@@ -66,8 +63,8 @@ const TodoSet = ({}) => {
     const [num, setNum] = useState();
     const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
     const [confirm, setComfirm] = useState(false);
-
-
+    const [todoTypes, setTodoTypes] = useState([]);
+    const [theme, setTheme] = useState ("light");
     
     const GettingTodo = () => {
         const options = {method: 'GET', headers: {Accept: 'application/json'}};
@@ -83,7 +80,6 @@ const TodoSet = ({}) => {
             .then(data => {setCategories(data)})
     }, []);
     
-    
     useEffect(() => GettingTodo(), []);
 
     const selectLocale = (newLocale) => {
@@ -95,12 +91,11 @@ const TodoSet = ({}) => {
     };
    
     const updateTodo = event => { 
-        console.log(todo)
-        console.log(select)
         newImage() 
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
+        console.log(finaldate.length)
 
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
@@ -114,7 +109,7 @@ const TodoSet = ({}) => {
         } else if (inputRef.current.value.length < 3 ){
             setText("Please type a longer sentence");
             setopen(true);
-        } else if (finaldate.length == 11){
+        } else if (finaldate.length == 11 || dateValue == null){
             setText("Please put in a valid date")
             setopen(true);
         } else {
@@ -132,44 +127,49 @@ const TodoSet = ({}) => {
                     GettingTodo();
                 })  
         }
-            
+        
         inputRef.current.value = ""
     };
-       
-
-    const DeleteTodoAll = () => {
-            setTodo([])
-            const optionsDeleteAll = {method: 'DELETE'};
-            fetch('http://localhost:8080/api/todos', optionsDeleteAll)
-                .then(response => response.json())
-        };
     
+    async function DeleteTodoAll(key) {
+        const optionsDeleteAll = {method: 'POST', Headers: { Accept: 'application/json' }};
+        for(let i= 0; i <= todo.length; i ++){ 
+            await fetch(`http://localhost:8080/api/todos/${key}/delete`, optionsDeleteAll)
+        } 
+        setTodo([]);
+    }
 
+    const filterForDelete = () => {
+        return (
+            todo.map(key => {
+                return DeleteTodoAll(key.id)
+            })
+        )
+    };
+    
     const Comfirmed = () => {
         setComfirm(true)
     };
     
-
     const handleClose = () =>{
         setopen(false);
         setComfirm(false);
     };
 
-
-
     const deleteToDo = (key) => {    
-        const fetching = "http://localhost:8080/api/todos/"
-        const optionsDelete = {method: 'DELETE', headers: {Accept: 'application/json'}};
-            fetch(fetching.concat(key), optionsDelete)
-                .then(response => response.json())
-
+        fetch(`http://localhost:8080/api/todos/${key}/delete`, { 
+            method: 'POST', 
+            headers: { 
+                Accept: 'application/json' 
+            }
+        }).then(response => {
             setTodo((current) =>
                 current.filter(todoo => {
                     return todoo.id != key;
                 })
-                );
-            };
-
+            );
+        });
+    };
     
     const Enter = event => {
         if (event.key === "Enter"){
@@ -182,36 +182,27 @@ const TodoSet = ({}) => {
         setSelect(event.target.value);
     };
 
-    const HandleEdit = (filteredId, key) => {
-        const Fetching = "http://localhost:8080/api/todos/";
-        const keyname = key.name
-        console.log(filteredId)
+    const EditTodo = (key, singleTodo) => {
+        const Fetching = `http://localhost:8080/api/todos/${singleTodo.id}`;
         const optionsEdit = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"description":key.value,"typeId":filteredId.todoType.id,"done":filteredId.done})
+            body: JSON.stringify({"description":key.value,"typeId":singleTodo.todoType.id,"done":singleTodo.done})
           };
-          fetch(Fetching.concat(keyname), optionsEdit)
+          fetch(Fetching, optionsEdit)
             .then(response => response.json())
-    };
-   
-    const EditTodo = (key) => {
-        todo.filter(t => t.id == key.name).map(filteredId => (
-            HandleEdit(filteredId, key)
-        ));
     };
     
     const HandleCheck = (filteredCheck, val, id) => {
-        const Fetching = "http://localhost:8080/api/todos/";
+        const Fetching = `http://localhost:8080/api/todos/${id}`;
         const optionsCheck = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"description":filteredCheck.description,"typeId":filteredCheck.todoType.id,"done":val})
           };
-          fetch(Fetching.concat(id), optionsCheck)
+          fetch(Fetching, optionsCheck)
             .then(response => response.json())
     };
-
                                                     // dit is eigelijk hetzelde als en if en else statement
     const check = (val, id) => {
         setTodo(todo.map(t => t.id == id ? {...t, done: val} : t))
@@ -220,18 +211,15 @@ const TodoSet = ({}) => {
         ))
     };
 
- 
     const ShowAll = () => {
         SetShow("All") 
     };
 
     const ShowUnfineshed  = () => {
-        console.log("unfinished")
         SetShow("Unfinished")
     };
 
     const ShowFinished = () => {
-        console.log("finished")
         SetShow("Finished")
     };
 
@@ -261,14 +249,12 @@ const TodoSet = ({}) => {
             </a> )}
         };
 
-
     const visibleTodos = useMemo(() => todo.filter(element => {
         if (Show === "All" 
         || (Show === "Unfinished" && element.done === false)
         || (Show === "Finished" && element.done === true))  {
             return true; 
         }
-
         return false;
     }, [ Show, todo ]));
 
@@ -277,11 +263,38 @@ const TodoSet = ({}) => {
         const optionsType = {method: 'GET', headers: {Accept: 'application/json'}};
         fetch('http://localhost:8080/api/todotypes', optionsType)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => setTodoTypes(data))
+    };
+    
+    useEffect(() => TypeTodo(), []);
+
+    const TheTodoType = () => {
+        return(
+        todoTypes.map(todoTypeFilter => {
+            return <div>
+                <div>
+                    <Rating name="disabled" value={5} readOnly className="rating" />
+                    <h3 className="High">{todoTypeFilter.name}</h3>
+                    <TodoItems category={todoTypeFilter.name} todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
+                </div>
+        </div>         
+        }))
+    };
+
+    const DarkMode = () => {
+        if (theme === "light"){
+            setTheme("dark")
+        }
+        else (
+            setTheme("light")
+        )
     }
+    useEffect(() => {
+        document.body.className = theme;
+    },[theme]);
   
     return(
-    <div className="form">  
+    <div className={`form ${theme}`} >   
        
         <h1 className="textTodo"  >TodoList</h1>
         <h2>
@@ -289,131 +302,100 @@ const TodoSet = ({}) => {
                 Information
             </Link>
         </h2>
-    
+
+        <FormGroup>
+            <FormControlLabel control={<Switch onClick={DarkMode}/>} label="Enable Darkmode" className="darkmode" />
+        </FormGroup>
 
         <Box className="TimePicker">
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-                <Stack spacing={3}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale} >
+                <Stack spacing={3} >
                     <ToggleButtonGroup value={locale} exclusive sx={{ mb: 2, display: 'block' }}>
                         {locales.map((localeItem)=>{
-                            <ToggleButton key={localeItem} value={localeItem} onClick={() => selectLocale(localeItem)}>
+                            <ToggleButton key={localeItem} value={localeItem} onClick={() => selectLocale(localeItem)} >
                             </ToggleButton>
                         })}
                     </ToggleButtonGroup>
                     <DatePicker value={dateValue}  onChange={(newValue) => setDateValue(newValue)}
-                    renderInput={(params) => <TextField {...params} />} >   
+                    renderInput={(params) => <TextField {...params} className="timeColor"/>} >   
                     </DatePicker>
                 </Stack>
             </LocalizationProvider>
         </Box>
             
-            <div role="tabpanel">
-                <Box  className="ShowSertainTodos">
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleValue} >
-                            <Tab label="Show all" onClick={ShowAll} className="HoverOptions" />
-                            <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions" />
-                            <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions" />
-                        </Tabs>
-                    </Box>
+        <div role="tabpanel">
+            <Box  className="ShowSertainTodos">
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleValue} >
+                        <Tab label="Show all" onClick={ShowAll} className="HoverOptions" />
+                        <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions" />
+                        <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions" />
+                    </Tabs>
                 </Box>
-            </div>
-
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
-                <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">{Text}</Alert>
-            </Snackbar>
-            
-            <div className="Top-Container">
-                <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth className="Options" >
-                        <InputLabel className="select" >Urgent</InputLabel>
-                            <Select   onChange={HandleChange} value={select} label="Urgent" >
-                                {categories.map((category) => <MenuItem value={category.id}>{category.name}</MenuItem>)}
-                                
-                            </Select> 
-                    </FormControl> 
-                </Box>
-
-                
-              
-                <Button variant="outlined" color="error" className="DeleteAll" onClick={Comfirmed}>Delete All</Button>
-            
-
-                <input className="input" placeholder="Add Task"  onKeyPress={Enter} ref={inputRef} type="text" autoComplete="off"  />
-                
-                <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Fab aria-label="add" onClick={function(event){updateTodo()} } type="submit" className="add-button">
-                        <AddIcon/>
-                    </Fab>
-                </Box>
-               
-                <p className="textTodoAmount">amount of Todo's:</p>
-                <p className="amountTodo">{todo.length}</p>
-                
-               
-                
-
-            </div>
-        {/* probeer deze dinamies te maken */}
-
-            <Box>
-                <div className="todos-container">
-                    <div className="high">
-                        <Rating name="disabled" value={5} readOnly className="rating" />
-                        <h3 className="High">Home</h3>
-                        <TodoItems category="Thuis" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
-                    </div>
-                    <div className="medium">
-                        <Rating name="disabled" value={3} readOnly className="rating" />
-                        <h3 className="Medium">Work</h3>
-                        <TodoItems category="Werk" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
-
-                    </div>
-                    <div className="low">
-                        <Rating name="disabled" value={2} readOnly className="rating" />
-                        <h3 className="Low"> School</h3>
-                        <TodoItems category="School" todos={visibleTodos} editCallback={EditTodo} deleteCallback={deleteToDo} checkCallback={check} />
-                    </div>
-                </div>   
             </Box>
-      
+        </div>
 
-    
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} >
+            <Alert severity="error" onClose={handleClose} sx={{ width: 350 }} className="alert">{Text}</Alert>
+        </Snackbar>
+        
+        <div className="Top-Container">
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth className="Options" >
+                    <InputLabel className="select" >Urgent</InputLabel>
+                        <Select   onChange={HandleChange} value={select} label="Urgent" >
+                            {categories.map((category) => <MenuItem value={category.id}>{category.name}</MenuItem>)}
+                        </Select> 
+                </FormControl> 
+            </Box>
+
+            <Button variant="outlined" color="error" className="DeleteAll" onClick={Comfirmed}>Delete All</Button>
+            <input className="input" placeholder="Add Task"  onKeyPress={Enter} ref={inputRef} type="text" autoComplete="off"  />
+            
+            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                <Fab aria-label="add" onClick={function(event){updateTodo()} } type="submit" className="add-button">
+                    <AddIcon/>
+                </Fab>
+            </Box>
+            <p className="textTodoAmount">amount of Todo's:</p>
+            <p className="amountTodo">{todo.length}</p>
+        </div>
+
+        <Box> 
+            <div className="todos-container">
+                <TheTodoType/>
+            </div>
+        </Box>
+
         <img src={image} 
         alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
       
-
         <Box className="Tips">
             <div>
                 <p >{Tips[num]}</p>
             </div>
-        </Box>           
-        
+        </Box>    
+                   
         <Begin />
     
-            <div>
-                <Dialog open={confirm} onClose={handleClose}  aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title" >{"are you sure you want to delete all?"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>Warning this deletes EVERYTHING your completed & uncompleted todo's</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={()=>{handleClose()}}>Disagree</Button>
-                    <Button onClick={()=>{handleClose(),DeleteTodoAll()}} autoFocus>
-                        Agree
-                    </Button>
-                    </DialogActions>
-                </Dialog>
-            </div>
-
+        <div>
+            <Dialog open={confirm} onClose={handleClose}  aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title" >{"are you sure you want to delete all?"}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>Warning this deletes EVERYTHING your completed & uncompleted todo's</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={()=>{handleClose()}}>Disagree</Button>
+                <Button onClick={()=>{handleClose(),filterForDelete()}} autoFocus>
+                    Agree
+                </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
 
     </div>
     );}
-
-
-
-    
 
 const Todo = () => {
     return(
@@ -422,7 +404,5 @@ const Todo = () => {
         </div>
     )
 }
-
-
 
 export default Todo

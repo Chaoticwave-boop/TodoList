@@ -3,6 +3,7 @@
     margin-top: 100px;
     margin-bottom: 50px;
   }
+
   .input{
     position: relative;
     width: 400px;
@@ -12,6 +13,7 @@
     top: -90px;
     background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   }
+
   .add-button{
     position: absolute;
     top: -150px;
@@ -101,7 +103,6 @@
 .testThing{
   position: relative;
   left: 300px;
- 
 }
 
 .Edit{
@@ -128,13 +129,6 @@
   position: relative;
   justify-content: space-evenly;
   top: -160px;
-  
-  
-
-  
- 
-  
-
 
   >div {
     display: flex;
@@ -158,14 +152,8 @@
   background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
   word-wrap: break-word;
   
-  
-
   >th {
-    flex-basis: 25%;
-    
-    
-    
-    
+    flex-basis: 25%;    
   }
 
   >span {
@@ -175,23 +163,13 @@
   >div{
     flex-basis: 60%;
     width: 100px;
-     
-    
-     
-    
   }
 
   >button {
     flex-basis: 10%;
-    
-    
   }
 
   .todo-name {
-    
-   
-    
-
     &.checked {
       text-decoration: line-through;
     }
@@ -200,36 +178,17 @@
     background-color: rgb(255, 255, 255);
    }
   }
-
-  
-
 }
 
 .High{
   border: 2px solid;
   background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
-  
-}
-
-.Medium{
-    border: 2px solid; 
-    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
-}
-
-.Low{
-  border: 2px solid; 
-  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
-}
-
-.OnStand{
-  border: 2px solid; 
-  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
 
 .rating{
   position: relative;
-  left: 330px;
-  top: 46px;
+  left: 120px;
+  top: 50px;
 }
 
 .ShowSertainTodos{
@@ -249,8 +208,9 @@
 .TimePicker{
   position: relative;
   width: 200px;
+  height: 56px;
   left: 920px;
-  top: -60px;
+  top: -70px;
 }
 
 
@@ -288,4 +248,43 @@
   position: absolute;
   top: 0.5cm;
   left: 40cm;
-  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));}
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+.darkmode{
+  position: absolute;
+  top: 70px;
+  left: 1500px;
+}
+.darkmode:hover{
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+
+
+.dark {
+  background-color: rgb(55, 58, 61);
+  color: rgb(0, 0, 0);
+  .HoverOptions{ background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .textTodoAmount{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .darkmode{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .High{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .Tips{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .todo-item{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .amountTodo{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .input{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .textTodo{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .Options{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .Link{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .timeColor{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .DeleteAll{background-image: linear-gradient(rgb(253, 135, 120), rgb(255, 143, 212)); color: black;}
+}
+
+.light {
+  background-color: #fff;
+  color: rgb(0, 0, 0);}
+
+
+.timeColor {
+  width: 200px;
+  height: 56px;
+  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}

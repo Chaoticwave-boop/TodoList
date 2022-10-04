@@ -33,3 +33,43 @@
     top: -190px;
     border-radius: 25px;
 }
+.explosion{
+    position: relative;
+    left: 780px;
+    top: 200px;
+}
+.twinkle{
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    top: 265px;
+    left: 1650px;
+}
+.thankyou{
+    position: relative;
+    left: -800px;
+    top: -410px;
+    height: 200px;
+}
+.dance{
+    position: absolute;
+    height: 200px;
+    left: 10px;
+    bottom: 10px;
+}
+
+.thanks{
+    position: absolute;
+    left: 1200px;
+    top: 100px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+    border-radius: 25px;
+}
+
+
+.dark{
+    .Nav{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+    .thanks{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+    .begin{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+    .name{background-image: linear-gradient(rgb(180, 162, 243), rgb(209, 246, 248));}
+}
