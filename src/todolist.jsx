@@ -34,7 +34,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TodoItems from "./TodoItems"
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import SwitchNight from "./switch";
+import Avatar from '@mui/material/Avatar';
+
 
 
 const locales = ["en"]
@@ -59,12 +61,13 @@ const TodoSet = ({}) => {
     const [Show, SetShow] = useState("All");
     const [locale, setLocale] = useState('en');
     const [dateValue, setDateValue] = useState(dayjs());
-    const [image, setImage] = useState(["https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg"]);
+    const [image, setImage] = useState(["https://i.im.ge/2022/10/05/1zm7BD.todocatneutral-removebg-preview-removebg-preview.png"]);
     const [num, setNum] = useState();
-    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/09/22/1hS33D.todocatsleep.jpg");
+    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/10/05/1zmiOp.todocatsleep-removebg-preview.png");
     const [confirm, setComfirm] = useState(false);
     const [todoTypes, setTodoTypes] = useState([]);
     const [theme, setTheme] = useState ("light");
+    const [color, setColor] = useState("purple")
     
     const GettingTodo = () => {
         const options = {method: 'GET', headers: {Accept: 'application/json'}};
@@ -95,7 +98,6 @@ const TodoSet = ({}) => {
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
-        console.log(finaldate.length)
 
         if (inputRef.current.value == "" ){
             setText("Please Type a Todo");
@@ -225,13 +227,13 @@ const TodoSet = ({}) => {
 
     const newImage = () => {
         const firstImage = setTimeout(()=> {
-            setImage("https://i.im.ge/2022/09/22/1UJOcJ.todocatneutraltalk.jpg")
+            setImage("https://i.im.ge/2022/10/05/1zmLyC.todocatneutraltalk-removebg-preview.png")
             setNum(randomNumberRange(0, 2))
         
         },2000)         
 
         const secondImage = setTimeout(()=>{
-            setImage("https://i.im.ge/2022/09/22/1UHU0m.todocatneutral.jpg")
+            setImage("https://i.im.ge/2022/10/05/1zm7BD.todocatneutral-removebg-preview-removebg-preview.png")
             setNum("")
         }, 6000)
     };
@@ -258,7 +260,6 @@ const TodoSet = ({}) => {
         return false;
     }, [ Show, todo ]));
 
-
     const TypeTodo = () => {
         const optionsType = {method: 'GET', headers: {Accept: 'application/json'}};
         fetch('http://localhost:8080/api/todotypes', optionsType)
@@ -284,27 +285,28 @@ const TodoSet = ({}) => {
     const DarkMode = () => {
         if (theme === "light"){
             setTheme("dark")
-        }
-        else (
-            setTheme("light")
-        )
+            setColor("black")
+        }else  setTheme("light"),  setColor("purple");
     }
+
     useEffect(() => {
         document.body.className = theme;
     },[theme]);
   
     return(
     <div className={`form ${theme}`} >   
-       
+        
         <h1 className="textTodo"  >TodoList</h1>
         <h2>
-            <Link href="http://127.0.0.1:5173/NewPage" underline="hover" className="Link">
+            <Link href="http://127.0.0.1:5173/NewPage" underline="hover" className="Link" style={{color: color}}>
                 Information
             </Link>
         </h2>
 
+        <Avatar alt="Brenda Stoute" src="/static/images/avatar/1.jpg" className="avatar"/>
+
         <FormGroup>
-            <FormControlLabel control={<Switch onClick={DarkMode}/>} label="Enable Darkmode" className="darkmode" />
+            <FormControlLabel control={<SwitchNight  sx={{ m: 1 }} onClick={DarkMode}/>} label="Enable Darkmode" className="darkmode" />
         </FormGroup>
 
         <Box className="TimePicker">
@@ -326,7 +328,7 @@ const TodoSet = ({}) => {
         <div role="tabpanel">
             <Box  className="ShowSertainTodos">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleValue} >
+                    <Tabs value={value} onChange={handleValue} textColor="secondary" indicatorColor="secondary" >
                         <Tab label="Show all" onClick={ShowAll} className="HoverOptions" />
                         <Tab label="Show unfinished" onClick={ShowUnfineshed} className="HoverOptions" />
                         <Tab label="Show finished" onClick={ShowFinished} className="HoverOptions" />
@@ -357,7 +359,7 @@ const TodoSet = ({}) => {
                     <AddIcon/>
                 </Fab>
             </Box>
-            <p className="textTodoAmount">amount of Todo's:</p>
+            <p className="textTodoAmount">amount of Todo's :</p>
             <p className="amountTodo">{todo.length}</p>
         </div>
 

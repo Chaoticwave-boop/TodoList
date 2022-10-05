@@ -196,8 +196,7 @@
   left: 1460px;
   top:-95px ;
   width: 500px;
-  height: 20px;
-  
+  height: 20px;  
 }
 
 .HoverOptions:hover{
@@ -248,7 +247,6 @@
   position: absolute;
   top: 0.5cm;
   left: 40cm;
-  background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
 }
 .darkmode{
   position: absolute;
@@ -264,27 +262,35 @@
   background-color: rgb(55, 58, 61);
   color: rgb(0, 0, 0);
   .HoverOptions{ background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
-  .textTodoAmount{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .textTodoAmount{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255)); border-radius: 25px; width: 150px; }
   .darkmode{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .High{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .Tips{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .todo-item{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .amountTodo{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
-  .input{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+  .input{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255)); outline: solid;}
   .textTodo{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .Options{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
-  .Link{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .timeColor{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .DeleteAll{background-image: linear-gradient(rgb(253, 135, 120), rgb(255, 143, 212)); color: black;}
+  .avatar{background-image: linear-gradient(rgb(58, 52, 134), rgb(50, 238, 252)); color: rgb(255, 255, 255);}
 }
 
 .light {
   background-color: #fff;
   color: rgb(0, 0, 0);}
+  
 
 
 .timeColor {
   width: 200px;
   height: 56px;
   background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+
+.avatar{
+  position: relative;
+  left: 1850px;
+  top: -155px;
+  background-image: linear-gradient(rgb(216, 98, 231), rgb(165, 238, 243));
 }

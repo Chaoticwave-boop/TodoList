@@ -72,4 +72,28 @@
     .thanks{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
     .begin{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
     .name{background-image: linear-gradient(rgb(180, 162, 243), rgb(209, 246, 248));}
+    .Button{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
+    .highText{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255)); border-radius: 25px; width: 100px;}
+}
+
+
+.Button{
+    position: relative;
+    bottom: 600px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+}
+
+.Highfive{
+    position: absolute;
+    top: 330px;
+    left: 850px;
+}
+
+.highText{
+    position: absolute;
+    left: 910px;
+    bottom: 600px;
+    background-image: linear-gradient(rgb(251, 220, 255), rgb(205, 247, 250));
+    border-radius: 25px; 
+    width: 100px;
 }
