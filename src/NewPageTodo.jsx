@@ -28,12 +28,8 @@ const Hello = () => {
         return(
             <div>
                 <h1 className="begin">
-                    brought to you by:
+                    brought to you by: Brenda
                 </h1>
-                <h2 className="name">
-                    Brenda
-                </h2>
-                <img src="https://i.gifer.com/origin/d7/d7ac4f38b77abe73165d85edf2cbdb9e_w200.gif" className="explosion"></img>
                 <div className="thanks">
                     <h3>special thanks to :</h3>
                     <p>{special}</p>

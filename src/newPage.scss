@@ -46,10 +46,10 @@
     left: 1650px;
 }
 .thankyou{
-    position: relative;
-    left: -800px;
-    top: -410px;
+    position: absolute;
+    left: 100px;
     height: 200px;
+    top: 300px;
 }
 .dance{
     position: absolute;
@@ -74,7 +74,8 @@
     .name{background-image: linear-gradient(rgb(180, 162, 243), rgb(209, 246, 248));}
     .Button{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
     .highText{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255)); border-radius: 25px; width: 100px;}
-    .coolCat{height: 600px; width: 450px; top: -90px;}
+    .coolCat{height: 400px; width: 280px; position: absolute; left: 1540px;top: 100px;}
+    .explosion{bottom: 100px; position: relative;}
 }
 
 
