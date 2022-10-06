@@ -12,11 +12,13 @@ const Hello = () => {
     const [Highfive, setHighfive] = useState("")
     const [num, setNum] = useState();
     const [color, setColor] = useState("purple")
-    
+    const [image, setImage] = useState("https://i.im.ge/2022/10/05/1zmyHc.sunglasses-cool-removebg-preview.png")
+    const [special, setSpecial]= useState("todoCat")
+
     const CatImage = () => {
         return(
         <a>
-            <img  className="coolCat"src="https://i.im.ge/2022/10/05/1zmyHc.sunglasses-cool-removebg-preview.png" 
+            <img  className="coolCat"src={image}
             alt="sunglasses cool" border="0" />
         </a>)
     }
@@ -34,7 +36,7 @@ const Hello = () => {
                 <img src="https://i.gifer.com/origin/d7/d7ac4f38b77abe73165d85edf2cbdb9e_w200.gif" className="explosion"></img>
                 <div className="thanks">
                     <h3>special thanks to :</h3>
-                    <p>todoCat</p>
+                    <p>{special}</p>
                 </div>
             </div>
         )}
@@ -53,8 +55,14 @@ const Hello = () => {
         if (theme === "light"){
             setTheme("dark")
             setColor("black")
+            setImage("https://i.im.ge/2022/10/06/1HGPkh.sunglasses-night-removebg-preview.png")
+            setSpecial("and NightCat")
         }
-        else setTheme("light"), setColor("purple")
+        else {setTheme("light"), 
+                setColor("purple") , 
+                setImage("https://i.im.ge/2022/10/05/1zmyHc.sunglasses-cool-removebg-preview.png"), 
+                setSpecial("todoCat")
+            }
     }
     useEffect(() => {
         document.body.className = theme;

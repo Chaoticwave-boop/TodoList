@@ -94,7 +94,9 @@ const TodoSet = ({}) => {
     };
    
     const updateTodo = event => { 
-        newImage() 
+        if (theme == "light"){newImage()}
+        else {darkImage()}
+
         var date = dateValue.$d  ;
         var finaldate = date.getDate() + '-' +  (date.getMonth() + 1)  + '-' +  date.getFullYear();
         inputRef.current.value = inputRef.current.value.trim();
@@ -238,18 +240,42 @@ const TodoSet = ({}) => {
         }, 6000)
     };
 
+    const darkImage = () => {
+        const firstImage = setTimeout(()=> {
+            setImage("https://i.im.ge/2022/10/06/1HJEC8.nightversion-talk-removebg-preview.png")
+            setNum(randomNumberRange(0, 2))
+           
+        },2000)         
+
+        const secondImage = setTimeout(()=>{
+            setImage("https://i.im.ge/2022/10/06/1HJtcK.nightversion-neutral-removebg-preview.png")
+            setNum("")
+        }, 6000)
+
+    }
+
         const randomNumberRange = (min,max) =>{
             return Math.floor(Math.random() * (max - min + 1)) + min;
         };  
 
         const Begin = () => {
             if (todo.length === 0 ){
-            return(
-            <a>
-            <img src={beginImage}  
-            alt="todocatsleep" border="0" className="sleepycat"/>
-            </a> )}
-        };
+                if (theme == "light"){
+                    setBeginImage("https://i.im.ge/2022/10/05/1zmiOp.todocatsleep-removebg-preview.png")
+                    return(
+                        <a>
+                        <img src={beginImage}  
+                        alt="todocatsleep" border="0" className="sleepycat"/>
+                        </a> )}
+                else { 
+                    setBeginImage("https://i.im.ge/2022/10/06/1Hnbnx.night-cat-sleep-removebg-preview-2.png")
+                    return(
+                        <a>
+                        <img src={beginImage}  
+                        alt="todocatsleep" border="0" className="sleepycat"/>
+                        </a> )
+                }
+        };}
 
     const visibleTodos = useMemo(() => todo.filter(element => {
         if (Show === "All" 
@@ -286,7 +312,12 @@ const TodoSet = ({}) => {
         if (theme === "light"){
             setTheme("dark")
             setColor("black")
-        }else  setTheme("light"),  setColor("purple");
+            setImage("https://i.im.ge/2022/10/06/1HJtcK.nightversion-neutral-removebg-preview.png")
+
+        }else  {
+        setTheme("light"),  
+        setColor("purple"), 
+        setImage("https://i.im.ge/2022/10/05/1zm7BD.todocatneutral-removebg-preview-removebg-preview.png");}
     }
 
     useEffect(() => {
@@ -370,7 +401,7 @@ const TodoSet = ({}) => {
         </Box>
 
         <img src={image} 
-        alt="todocatneutral" border="0"  className="catmascot" onClick={newImage} />
+        alt="todocatneutral" border="0"  className="catmascot"/>
       
         <Box className="Tips">
             <div>

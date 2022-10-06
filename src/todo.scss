@@ -188,7 +188,7 @@
 .rating{
   position: relative;
   left: 120px;
-  top: 50px;
+  top: 45px;
 }
 
 .ShowSertainTodos{
@@ -215,9 +215,9 @@
 
 .catmascot{
   position: absolute;
-  height: 190px;
-  width:170px;
-  right: 1720px;
+  height: 290px;
+  width:270px;
+  right: 1750px;
   top: 65px;
 }
 
@@ -274,6 +274,7 @@
   .timeColor{background-image: linear-gradient(rgb(149, 120, 253), rgb(143, 248, 255));}
   .DeleteAll{background-image: linear-gradient(rgb(253, 135, 120), rgb(255, 143, 212)); color: black;}
   .avatar{background-image: linear-gradient(rgb(58, 52, 134), rgb(50, 238, 252)); color: rgb(255, 255, 255);}
+  .catmascot{width: 300px; height: 450px; left: 20px; top: -70px;}
 }
 
 .light {
