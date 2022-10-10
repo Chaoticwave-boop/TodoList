@@ -63,7 +63,7 @@ const TodoSet = ({}) => {
     const [dateValue, setDateValue] = useState(dayjs());
     const [image, setImage] = useState(["https://i.im.ge/2022/10/05/1zm7BD.todocatneutral-removebg-preview-removebg-preview.png"]);
     const [num, setNum] = useState();
-    const[beginImage, setBeginImage]= useState("https://i.im.ge/2022/10/05/1zmiOp.todocatsleep-removebg-preview.png");
+    const [beginImage, setBeginImage] = useState("https://i.im.ge/2022/10/05/1zmiOp.todocatsleep-removebg-preview.png");
     const [confirm, setComfirm] = useState(false);
     const [todoTypes, setTodoTypes] = useState([]);
     const [theme, setTheme] = useState ("light");
